@@ -1,0 +1,27 @@
+{
+  "name": "gutentemplates",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "tokenizr": "^1.5.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@wordpress/block-editor": "^3.3.0",
+    "@wordpress/blocks": "^6.8.0",
+    "@wordpress/components": "^8.4.0",
+    "@wordpress/element": "^2.9.0",
+    "babel-loader": "^8.0.6",
+    "core-js": "^3.4.1",
+    "lodash": "^4.17.15",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "xmldom": "^0.1.27"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel -d lib/ src"
+  }
+}
