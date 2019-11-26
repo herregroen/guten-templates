@@ -42,3 +42,5 @@ add_action( 'guten-templates', function () {
 	<?php
 } );
 ```
+Turns into:
+![Card example image](_screenshots/yoast-card.png)
