@@ -1,0 +1,69 @@
+{
+    "extends": [
+        "yoast",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "env": {
+        "jest": true
+    },
+    "rules": {
+        "new-cap": 0,
+        "complexity": [
+            2,
+            8
+        ],
+        "@typescript-eslint-no-parameter-properties": [
+            2,
+            {
+                "allows": [
+                    "protected readonly",
+                    "private readonly"
+                ]
+            }
+        ],
+        "@typescript-eslint/explicit-function-return-type": 0,
+        "max-statements": [
+            2,
+            33
+        ],
+        // Normal no-unused-vars doesn't work for TypeScript
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        // Duplicate class members are overloads and are allowed in TypeScript
+        "no-dupe-class-members": "off",
+        // Normal indent doesn't work for TypeScript
+        "indent": "off",
+        "@typescript-eslint/indent": [
+            2,
+            "tab",
+            {
+                "SwitchCase": 1
+            }
+        ],
+        // Allow space before async arrow function
+        "space-before-function-paren": [
+            "error",
+            {
+                "anonymous": "never",
+                "named": "never",
+                "asyncArrow": "always"
+            }
+        ],
+        // Types are already defined by TypeScript, no need in JSDoc.
+        "valid-jsdoc": [
+            "error",
+            {
+                "requireReturnType": false,
+                "requireParamType": false
+            }
+        ]
+    }
+}
