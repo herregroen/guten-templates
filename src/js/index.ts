@@ -8,7 +8,7 @@ import process from "./functions/process.js";
 import parse from "./functions/parse.js";
 import { generateUniqueSeparator } from "./functions/separator.js";
 
-// const template = `
+// Const template = `
 // <?block name="my/block" category="whatever" ?>
 // <div class="whatever">
 //     <?rich-text tag="p" name="content" ?>
@@ -24,7 +24,7 @@ jQuery( 'script[type="text/guten-template"]' ).each( function() {
 		const separator  = generateUniqueSeparator( template );
 		const definition = parse( process( tokens, separator ) );
 		definition.register();
-	} catch( e ) {
+	} catch ( e ) {
 		console.error( "Failed parsing guten-template", e, this );
 	}
 } );

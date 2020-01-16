@@ -1,4 +1,4 @@
-const Tokenizr = require( "tokenizr" );
+import Tokenizr, { IToken } from "tokenizr";
 
 const lexer = new Tokenizr();
 
@@ -7,41 +7,41 @@ lexer.rule( "default", /(.*?)({{[a-zA-Z\-]+|$)/, ( ctx, matches ) => {
 		ctx.accept( "constant", matches[ 1 ] );
 	}
 
-	if ( matches[ 2 ] && matches[ 2 ].slice( 0, 2 ) === '{{' ) {
+	if ( matches[ 2 ] && matches[ 2 ].slice( 0, 2 ) === "{{" ) {
 		ctx.state( "definition" );
 		ctx.accept( "definition", matches[ 2 ].slice( 2 ) );
 	}
-} );
+}, "open-instruction" );
 
 lexer.rule( "definition", /\s*}}/, ( ctx ) => {
 	ctx.untag( "undefined" );
 	ctx.state( "default" );
 	ctx.ignore();
-} );
+}, "close-instruction" );
 
 // Options object key
 lexer.rule( "definition", /\s*([a-zA-Z][a-zA-Z0-9-_]*)=/, ( ctx, matches ) => {
 	ctx.accept( "key", matches[ 1 ] );
 	ctx.state( "definition-value" );
-} );
+}, "options-object-key" );
 
 // Open array
 lexer.rule( "definition-value", /\s*\[/, ( ctx ) => {
 	ctx.tag( "array" );
 	ctx.accept( "array-open" );
-} );
+}, "open-array" );
 
 // Close array
 lexer.rule( "definition-value #array", /\s*]/, ( ctx ) => {
 	ctx.untag( "array" );
 	ctx.accept( "array-close" );
 	ctx.state( "definition" );
-} );
+}, "close-array" );
 
 // Comma in array
 lexer.rule( "definition-value #array", /\s*,/, ( ctx ) => {
 	ctx.ignore();
-} );
+}, "array-comma" );
 
 // Number values
 lexer.rule( "definition-value", /\s*(\d+)/, ( ctx, matches ) => {
@@ -49,7 +49,7 @@ lexer.rule( "definition-value", /\s*(\d+)/, ( ctx, matches ) => {
 	if ( ! ctx.tagged( "array" ) ) {
 		ctx.state( "definition" );
 	}
-} );
+}, "number-value" );
 
 // Boolean values
 lexer.rule( "definition-value", /\s*(true|false)/, ( ctx, matches ) => {
@@ -57,7 +57,7 @@ lexer.rule( "definition-value", /\s*(true|false)/, ( ctx, matches ) => {
 	if ( ! ctx.tagged( "array" ) ) {
 		ctx.state( "definition" );
 	}
-} );
+}, "boolean-value" );
 
 // String values
 lexer.rule( "definition-value", /\s*"([^"\\]+|\\.)*"/, ( ctx, matches ) => {
@@ -65,16 +65,16 @@ lexer.rule( "definition-value", /\s*"([^"\\]+|\\.)*"/, ( ctx, matches ) => {
 	if ( ! ctx.tagged( "array" ) ) {
 		ctx.state( "definition" );
 	}
-} );
+}, "string-value" );
 
 /**
  * Tokenizes a given text.
- * 
- * @param {string} text The text.
- * 
- * @returns {{type: string, value: string}[]} An array of tokens.
+ *
+ * @param text The text.
+ *
+ * @returns An array of tokens.
  */
-export default function tokenize( text ) {
+export default function tokenize( text ): IToken[] {
 	lexer.reset();
 	lexer.input( text );
 	return lexer.tokens();

@@ -5,7 +5,7 @@
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2018,
+        "ecmaVersion": 2019,
         "sourceType": "module"
     },
     "plugins": [
@@ -18,9 +18,9 @@
         "new-cap": 0,
         "complexity": [
             2,
-            8
+            10
         ],
-        "@typescript-eslint-no-parameter-properties": [
+        "@typescript-eslint/no-parameter-properties": [
             2,
             {
                 "allows": [
@@ -30,6 +30,18 @@
             }
         ],
         "@typescript-eslint/explicit-function-return-type": 0,
+        "@typescript-eslint/no-use-before-define": [
+            "error",
+            {
+                "functions": false
+            }
+        ],
+        "no-constant-condition": [
+            "error",
+            {
+                "checkLoops": false
+            }
+        ],
         "max-statements": [
             2,
             33

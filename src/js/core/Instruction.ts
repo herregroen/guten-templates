@@ -3,13 +3,16 @@ import { BlockConfiguration } from "@wordpress/blocks";
 import { RenderMode, RenderProps } from "./Definition";
 
 export type InstructionOptions = Record<string, string | boolean | number | Array<string> | Array<boolean> | Array<number>>;
-export type InstructionClass   = { new( id: string, options: InstructionOptions ): Instruction };
+export type InstructionClass   = { new( id: number, options: InstructionOptions ): Instruction };
 
 /**
  * Instruction class.
  */
 export default abstract class Instruction {
 	static registeredInstructions: Record<string, InstructionClass> = {};
+
+	public id: number;
+	public options: InstructionOptions;
 
 	/**
 	 * Creates a render instruction.
@@ -18,9 +21,12 @@ export default abstract class Instruction {
 	 * @param options The options.
 	 */
 	constructor(
-		public id: string,
-		public options: InstructionOptions,
-	) { }
+		id: number,
+		options: InstructionOptions,
+	) {
+		this.id = id;
+		this.options = options;
+	}
 
 	/**
 	 * Renders the element.
@@ -72,7 +78,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns The instruction instance.
 	 */
-	static create( name: string, id: string, options: InstructionOptions = {} ) {
+	static create( name: string, id: number, options: InstructionOptions = {} ) {
 		const klass = Instruction.registeredInstructions[ name ];
 
 		if ( ! klass ) {
