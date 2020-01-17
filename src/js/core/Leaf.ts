@@ -1,4 +1,5 @@
 import { RenderMode, RenderProps } from "./Definition";
+import { ReactElement } from "@wordpress/element";
 
 /**
  * Leaf class
@@ -13,5 +14,5 @@ export default abstract class Leaf {
 	 *
 	 * @returns The rendered element.
 	 */
-	abstract render( mode: RenderMode, props: RenderProps, i: number ): JSX.Element | string
+	abstract render( mode: RenderMode, props: RenderProps, i: number ): ReactElement | string
 }

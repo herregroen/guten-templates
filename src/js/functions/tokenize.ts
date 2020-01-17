@@ -2,7 +2,7 @@ import Tokenizr, { IToken } from "tokenizr";
 
 const lexer = new Tokenizr();
 
-lexer.rule( "default", /(.*?)({{[a-zA-Z\-]+|$)/, ( ctx, matches ) => {
+lexer.rule( "default", /(.*?)({{[a-zA-Z-]+|$)/, ( ctx, matches ) => {
 	if ( matches[ 1 ] && matches[ 1 ].length > 0 ) {
 		ctx.accept( "constant", matches[ 1 ] );
 	}

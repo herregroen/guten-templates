@@ -1,4 +1,4 @@
-import { createElement, Fragment } from "@wordpress/element";
+import { createElement, Fragment, ReactElement } from "@wordpress/element";
 import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
 import { InspectorControls } from "@wordpress/block-editor";
 import { merge } from "lodash";
@@ -12,6 +12,10 @@ export enum RenderMode {
 }
 
 export type RenderProps = BlockEditProps<Record<string, unknown>> | BlockSaveProps<Record<string, unknown>>;
+
+type MutableBlockConfiguration = {
+	-readonly [K in keyof BlockConfiguration]: BlockConfiguration[K]
+}
 
 /**
  * Definition clas
@@ -49,7 +53,7 @@ export default class Definition {
 	 *
 	 * @returns {JSX.Element} The rendered block.
 	 */
-	render( mode: RenderMode, props: RenderProps ): JSX.Element | string {
+	render( mode: RenderMode, props: RenderProps ): ReactElement {
 		const elements = this.tree.map( ( leaf, i ) => leaf.render( mode, props, i ) ).filter( e => e !== null );
 
 		if ( mode === "edit" ) {
@@ -61,7 +65,7 @@ export default class Definition {
 		}
 
 		if ( elements.length === 1 ) {
-			return elements[ 0 ];
+			return elements[ 0 ] as ReactElement;
 		}
 
 		return createElement( Fragment, null, elements );
@@ -75,7 +79,7 @@ export default class Definition {
 	register(): void {
 		const configuration = this.instructions.reduce(
 			( config, instruction ) => merge( config, instruction.configuration() ), {},
-		) as BlockConfiguration;
+		) as MutableBlockConfiguration;
 		const name = configuration.name;
 		delete configuration.name;
 

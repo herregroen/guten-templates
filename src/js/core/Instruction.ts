@@ -1,6 +1,7 @@
 import Leaf from "./Leaf";
 import { BlockConfiguration } from "@wordpress/blocks";
 import { RenderMode, RenderProps } from "./Definition";
+import { ReactElement } from "@wordpress/element";
 
 export type InstructionOptions = Record<string, string | boolean | number | Array<string> | Array<boolean> | Array<number>>;
 export type InstructionClass   = { new( id: number, options: InstructionOptions ): Instruction };
@@ -28,6 +29,7 @@ export default abstract class Instruction {
 		this.options = options;
 	}
 
+	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
 	 * Renders the element.
 	 *
@@ -38,7 +40,9 @@ export default abstract class Instruction {
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
-	abstract render( mode: RenderMode, props: RenderProps, leaf: Leaf, i: number ): JSX.Element
+	render( mode: RenderMode, props: RenderProps, leaf: Leaf, i: number ): ReactElement | string {
+		return null;
+	}
 
 	/**
 	 * Renders the sidebar.
@@ -48,14 +52,19 @@ export default abstract class Instruction {
 	 *
 	 * @returns The sidebar element to render.
 	 */
-	abstract sidebar( props: RenderProps, i: number ): JSX.Element
+	sidebar( props: RenderProps, i: number ): ReactElement | string {
+		return null;
+	}
+	/* eslint-enable @typescript-eslint/no-unused-vars */
 
 	/**
 	 * Returns the configuration of this instruction.
 	 *
 	 * @returns The configuration.
 	 */
-	abstract configuration(): Partial<BlockConfiguration>
+	configuration(): Partial<BlockConfiguration> {
+		return {};
+	}
 
 	/**
 	 * Register a new instruction.

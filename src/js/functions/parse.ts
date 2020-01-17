@@ -1,3 +1,5 @@
+import { flatMap } from "lodash";
+
 import Leaf from "../core/Leaf";
 import Definition from "../core/Definition";
 import InstructionLeaf from "../leaves/InstructionLeaf";
@@ -29,7 +31,7 @@ function parseText( text: string, { separator, instructions }: Definition ): Lea
  * @returns The nodes parsed as leaves.
  */
 function parseNodes( nodes: NodeListOf<ChildNode>, definition: Definition ): Leaf[] {
-	const parsed = Array.prototype.flatMap.call( nodes, node => parseNode( node, definition ) );
+	const parsed = flatMap( nodes, node => parseNode( node, definition ) );
 	if ( parsed.length === 0 ) {
 		return null;
 	}
@@ -44,7 +46,7 @@ function parseNodes( nodes: NodeListOf<ChildNode>, definition: Definition ): Lea
  *
  * @returns {Leaf[]} The parsed leaves.
  */
-function parseNode( node: Element, definition: Definition ): Leaf[] {
+function parseNode( node: ChildNode, definition: Definition ): Leaf[] {
 	let leaf;
 
 	switch ( node.nodeType ) {
@@ -52,8 +54,8 @@ function parseNode( node: Element, definition: Definition ): Leaf[] {
 			return parseText( node.nodeValue, definition );
 		case Node.ELEMENT_NODE:
 			leaf = new ElementLeaf( node.nodeName.toLowerCase() );
-			for ( let i = 0; i < node.attributes.length; i++ ) {
-				const attribute = node.attributes[ i ];
+			for ( let i = 0; i < ( node as Element ).attributes.length; i++ ) {
+				const attribute = ( node as Element ).attributes[ i ];
 				leaf.attributes[ attribute.name ] = parseText( attribute.value, definition );
 			}
 			leaf.children = parseNodes( node.childNodes, definition );
