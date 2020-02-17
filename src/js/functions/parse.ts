@@ -77,7 +77,7 @@ function parseNode( node: ChildNode, definition: Definition ): Leaf[] {
  *
  * @returns The parsed definition.
  */
-export default function parse( definition ): Definition {
+export default function parse( definition: Definition ): Definition {
 	const parser = new DOMParser();
 	const doc    = parser.parseFromString( definition.template, "text/html" );
 
