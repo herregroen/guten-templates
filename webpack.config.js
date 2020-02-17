@@ -1,19 +1,22 @@
 module.exports = {
-	mode: 'development',
+	mode: "development",
 	watch: true,
-	entry: './src/js/index.js',
+	entry: "./src/js/index.ts",
 	output: {
 		path: __dirname,
-		filename: 'guten-templates.min.js',
+		filename: "guten-templates.min.js",
 	},
 	module: {
 		rules: [
 			{
-				test: /.js$/,
-				loader: 'babel-loader',
+				test: /\.tsx?$/,
+				use: "ts-loader",
 				exclude: /node_modules/,
 			},
 		],
+	},
+	resolve: {
+		extensions: [ ".ts", ".js", ".json" ],
 	},
 	externals: {
 		lodash: "window.lodash",
@@ -21,5 +24,5 @@ module.exports = {
 		"@wordpress/blocks": "window.wp.blocks",
 		"@wordpress/block-editor": "window.wp.blockEditor",
 		"@wordpress/components": "window.wp.components",
-	}
+	},
 };

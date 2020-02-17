@@ -1,15 +1,15 @@
 import Leaf from "../core/Leaf";
 import { RenderMode, RenderProps } from "../core/Definition";
-import { createElement, HTMLAttributes } from "@wordpress/element";
+import { createElement, AllHTMLAttributes } from "@wordpress/element";
 
-const attributeMap: Record<string, string> = { "class": "className", "for": "htmlFor" };
+const attributeMap: Record<string, keyof AllHTMLAttributes<unknown>> = { "class": "className", "for": "htmlFor" };
 
 /**
  * ElementLeaf class.
  */
 export default class ElementLeaf extends Leaf {
 	public tag: string;
-	public attributes: Record<string, Leaf[]>;
+	public attributes: Record<keyof AllHTMLAttributes<unknown>, Leaf[]>;
 	public children: Leaf[];
 
 	/**
@@ -39,16 +39,17 @@ export default class ElementLeaf extends Leaf {
      * @returns The rendered element.
      */
 	render( mode: RenderMode, props: RenderProps ): JSX.Element {
-		const attributes: HTMLAttributes<unknown> = {};
+		const attributes: AllHTMLAttributes<unknown> = {};
 		for ( const key in this.attributes ) {
 			if ( ! Object.prototype.hasOwnProperty.call( attributes, key ) ) {
 				continue;
 			}
 
-			attributes[ attributeMap[ key ] || key ] = this.attributes[ key ]
-				.map( ( leaf, i ) => leaf.render( mode, props, i ) ).join( "" );
+			const fixedKey = attributeMap[ key ] || key as keyof AllHTMLAttributes<unknown>;
+			attributes[ fixedKey ] = this.attributes[ key as keyof AllHTMLAttributes<unknown> ]
+				.map( ( leaf, i ) => leaf.render( mode, props, i ) ).join( "" ) as never;
 		}
-		if ( mode === "edit" && [ "button", "a" ].includes( this.tag ) ) {
+		if ( mode === "edit" && [ "button", "a" ].indexOf( this.tag ) !== -1 ) {
 			attributes.onClick = e => {
 				e.preventDefault();
 				return false;

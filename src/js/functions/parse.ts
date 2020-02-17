@@ -5,6 +5,7 @@ import Definition from "../core/Definition";
 import InstructionLeaf from "../leaves/InstructionLeaf";
 import TextLeaf from "../leaves/TextLeaf";
 import ElementLeaf from "../leaves/ElementLeaf";
+import { AllHTMLAttributes } from "@wordpress/element";
 
 /**
  * Parses text into leaves.
@@ -18,7 +19,7 @@ function parseText( text: string, { separator, instructions }: Definition ): Lea
 	const parts = text.split( separator );
 
 	return parts
-		.map( ( value, i ) => ( i % 2 ) ?  new InstructionLeaf( instructions[ value ] ) : new TextLeaf( value ) )
+		.map( ( value, i ) => ( i % 2 ) ?  new InstructionLeaf( instructions[ parseInt( value, 10 ) ] ) : new TextLeaf( value ) )
 		.filter( leaf => ! ( leaf instanceof TextLeaf && leaf.value === "" ) );
 }
 
@@ -47,16 +48,14 @@ function parseNodes( nodes: NodeListOf<ChildNode>, definition: Definition ): Lea
  * @returns {Leaf[]} The parsed leaves.
  */
 function parseNode( node: ChildNode, definition: Definition ): Leaf[] {
-	let leaf;
-
 	switch ( node.nodeType ) {
 		case Node.TEXT_NODE:
 			return parseText( node.nodeValue, definition );
-		case Node.ELEMENT_NODE:
-			leaf = new ElementLeaf( node.nodeName.toLowerCase() );
+		case Node.ELEMENT_NODE: {
+			const leaf = new ElementLeaf( node.nodeName.toLowerCase() );
 			for ( let i = 0; i < ( node as Element ).attributes.length; i++ ) {
 				const attribute = ( node as Element ).attributes[ i ];
-				leaf.attributes[ attribute.name ] = parseText( attribute.value, definition );
+				leaf.attributes[ attribute.name as keyof AllHTMLAttributes<unknown> ] = parseText( attribute.value, definition );
 			}
 			leaf.children = parseNodes( node.childNodes, definition );
 			if ( leaf.children ) {
@@ -64,7 +63,8 @@ function parseNode( node: ChildNode, definition: Definition ): Leaf[] {
 					child.parent = leaf;
 				} );
 			}
-			return leaf;
+			return [ leaf ];
+		}
 	}
 
 	return [];

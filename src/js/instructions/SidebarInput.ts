@@ -39,7 +39,7 @@ class SidebarInput extends Instruction {
 	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ) {
 		const attributes: TextControl.Props = {
 			label: this.options.label,
-			value: props[ this.options.name ],
+			value: props.attributes[ this.options.name ] as string,
 			onChange: value => props.setAttributes( { [ this.options.name ]: value } ),
 			key: i,
 		};

@@ -5,6 +5,8 @@ import { ReactElement } from "@wordpress/element";
  * Leaf class
  */
 export default abstract class Leaf {
+	public parent: Leaf;
+
 	/**
 	 * Renders a leaf.
 	 *

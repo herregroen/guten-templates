@@ -47,7 +47,7 @@ class SidebarSelect extends Instruction {
 
 		return createElement( SelectControl, {
 			label: this.options.label,
-			value: props[ this.options.name ],
+			value: props.attributes[ this.options.name ] as string,
 			options,
 			onChange: value => props.setAttributes( { [ this.options.name ]: value } ),
 			key: i,

@@ -4,7 +4,8 @@
   "main": "lib/index.js",
   "license": "MIT",
   "dependencies": {
-    "tokenizr": "^1.5.2"
+    "tokenizr": "^1.5.2",
+    "ts-loader": "^6.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -21,7 +22,6 @@
     "@wordpress/blocks": "^6.8.0",
     "@wordpress/components": "^8.4.0",
     "@wordpress/element": "^2.9.0",
-    "babel-loader": "^8.0.6",
     "core-js": "^3.4.1",
     "eslint": "^6.8.0",
     "eslint-config-yoast": "^5.0.7",

@@ -29,7 +29,7 @@ export function generateUniqueSeparator( text: string ): string {
 
 	while ( true ) {
 		const separator = generateSeparator( Math.floor( length ) );
-		if ( ! text.includes( separator ) ) {
+		if ( text.indexOf( separator ) === -1 ) {
 			return separator;
 		}
 		length += 0.2;

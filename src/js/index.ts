@@ -3,10 +3,10 @@ import "./instructions/Block";
 import "./instructions/SidebarSelect";
 import "./instructions/SidebarInput";
 import "./instructions/InnerBlocks";
-import tokenize from "./functions/tokenize.js";
-import process from "./functions/process.js";
-import parse from "./functions/parse.js";
-import { generateUniqueSeparator } from "./functions/separator.js";
+import tokenize from "./functions/tokenize";
+import process from "./functions/process";
+import parse from "./functions/parse";
+import { generateUniqueSeparator } from "./functions/separator";
 
 // Const template = `
 // <?block name="my/block" category="whatever" ?>

@@ -32,7 +32,7 @@ function processInstruction( token: IToken<string>, tokens: IToken[] ) {
 		} else if ( tokens[ 0 ].isA( "value" ) ) {
 			value = tokens.shift().value;
 		}
-		instruction.options[ key ] = value;
+		instruction.options[ key ] = value as string | boolean | number | Array<string> | Array<boolean> | Array<number>;
 	}
 
 	return instruction;
