@@ -1,7 +1,7 @@
 import Leaf from "./Leaf";
-import { BlockConfiguration } from "@wordpress/blocks";
 import { RenderSaveProps, RenderEditProps } from "./Definition";
 import { ReactElement } from "@wordpress/element";
+import { BlockConfiguration } from "@wordpress/blocks";
 
 export type InstructionOptions = Record<string, string | boolean | number | Array<string> | Array<boolean> | Array<number>>;
 export type InstructionClass   = { new( id: number, options: InstructionOptions ): Instruction };

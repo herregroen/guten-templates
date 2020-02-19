@@ -4,6 +4,11 @@
         "noImplicitAny": true,
         "target": "es5",
         "jsx": "react",
-        "allowJs": true
+        "allowJs": true,
+        "lib": [
+            "DOM",
+            "ES2015",
+            "ES2017"
+        ],
     }
 }

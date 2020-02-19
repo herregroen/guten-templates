@@ -50,9 +50,9 @@ export default class Definition {
 	/**
 	 * Renders editing the block.
 	 *
-	 * @param {RenderProps} props The props.
+	 * @param props The props.
 	 *
-	 * @returns {JSX.Element} The rendered block.
+	 * @returns The rendered block.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
 		const elements = this.tree.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
@@ -73,9 +73,9 @@ export default class Definition {
 	/**
 	 * Renders saving the block.
 	 *
-	 * @param {RenderProps} props The props.
+	 * @param props The props.
 	 *
-	 * @returns {JSX.Element} The rendered block.
+	 * @returns The rendered block.
 	 */
 	save( props: RenderSaveProps ): JSX.Element {
 		const elements = this.tree.map( ( leaf, i ) => leaf.save( props, i ) ).filter( e => e !== null );
@@ -88,13 +88,21 @@ export default class Definition {
 	}
 
 	/**
+	 * Returns the configuration of this definition.
+	 *
+	 *@returns The configuration.
+	 */
+	configuration(): MutableBlockConfiguration {
+		return this.instructions.reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} as MutableBlockConfiguration );
+	}
+
+	/**
 	 * Registers the block with Gutenberg.
 	 */
 	register(): void {
-		const configuration = this.instructions.reduce(
-			( config, instruction ) => merge( config, instruction.configuration() ), {},
-		) as MutableBlockConfiguration;
-		const name = configuration.name;
+		const configuration = this.configuration();
+
+		const name = configuration.name as string;
 		delete configuration.name;
 
 		configuration.edit = props => this.edit( props );

@@ -1,4 +1,5 @@
 import Instruction from "../core/Instruction";
+import { BlockConfiguration } from "@wordpress/blocks";
 
 /**
  * Block instruction.
@@ -9,7 +10,7 @@ class Block extends Instruction {
 	 *
 	 * @returns The configuration.
 	 */
-	configuration() {
+	configuration(): Partial<BlockConfiguration> {
 		return this.options;
 	}
 }
