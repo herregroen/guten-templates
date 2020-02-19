@@ -19,11 +19,20 @@ export default class TextLeaf extends Leaf {
 	}
 
 	/**
-     * Renders this leaf.
-     *
-     * @returns The text of this leaf.
-     */
-	render(): string {
+	 * Renders editing a leaf.
+	 *
+	 * @returns The rendered element.
+	 */
+	save(): JSX.Element | string {
+		return this.value;
+	}
+
+	/**
+	 * Renders saving a leaf.
+	 *
+	 * @returns The rendered element.
+	 */
+	edit(): JSX.Element | string {
 		return this.value;
 	}
 }

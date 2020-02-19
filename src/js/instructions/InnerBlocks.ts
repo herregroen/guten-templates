@@ -1,38 +1,42 @@
-import { createElement, ReactElement } from "@wordpress/element";
+import { createElement } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
 import Instruction from "../core/Instruction";
-import { RenderMode } from "../core/Definition";
 
 /**
  * InnerBlocks instruction
  */
 class InnerBlocks extends Instruction {
 	/**
-	 * Renders the instruction.
+	 * Renders saving the instruction.
 	 *
-	 * @param mode The render mode.
 	 *
 	 * @returns The inner blocks.
 	 */
-	render( mode: RenderMode ): ReactElement {
-		if ( mode === "edit" ) {
-			const attributes: WordPressInnerBlocks.Props = {};
+	save(): JSX.Element {
+		return createElement( WordPressInnerBlocks.Content );
+	}
 
-			if ( this.options.appender === "button" ) {
-				attributes.renderAppender = () => createElement( WordPressInnerBlocks.ButtonBlockerAppender );
-			}
-			if ( this.options.appender === "default" ) {
-				attributes.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
-			}
-			if ( this.options.allowedBlocks ) {
-				attributes.allowedBlocks = this.options.allowedBlocks as string[];
-			}
+	/**
+	 * Renders editing the instruction.
+	 *
+	 *
+	 * @returns The inner blocks.
+	 */
+	edit(): JSX.Element {
+		const attributes: WordPressInnerBlocks.Props = {};
 
-			return createElement( WordPressInnerBlocks, attributes );
+		if ( this.options.appender === "button" ) {
+			attributes.renderAppender = () => createElement( WordPressInnerBlocks.ButtonBlockerAppender );
+		}
+		if ( this.options.appender === "default" ) {
+			attributes.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
+		}
+		if ( this.options.allowedBlocks ) {
+			attributes.allowedBlocks = this.options.allowedBlocks as string[];
 		}
 
-		return createElement( WordPressInnerBlocks.Content );
+		return createElement( WordPressInnerBlocks, attributes );
 	}
 }
 

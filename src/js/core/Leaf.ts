@@ -1,5 +1,4 @@
-import { RenderMode, RenderProps } from "./Definition";
-import { ReactElement } from "@wordpress/element";
+import { RenderEditProps, RenderSaveProps } from "./Definition";
 
 /**
  * Leaf class
@@ -8,13 +7,22 @@ export default abstract class Leaf {
 	public parent: Leaf;
 
 	/**
-	 * Renders a leaf.
+	 * Renders editing a leaf.
 	 *
-	 * @param mode  The render mode.
 	 * @param props The render props.
 	 * @param i     The number child this leaf is.
 	 *
 	 * @returns The rendered element.
 	 */
-	abstract render( mode: RenderMode, props: RenderProps, i: number ): ReactElement | string
+	abstract save( props: RenderSaveProps, i: number ): JSX.Element | string
+
+	/**
+	 * Renders saving a leaf.
+	 *
+	 * @param props The render props.
+	 * @param i     The number child this leaf is.
+	 *
+	 * @returns The rendered element.
+	 */
+	abstract edit( props: RenderEditProps, i: number ): JSX.Element | string
 }

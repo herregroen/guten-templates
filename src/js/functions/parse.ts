@@ -15,7 +15,7 @@ import { AllHTMLAttributes } from "@wordpress/element";
  *
  * @returns The parsed leaves.
  */
-function parseText( text: string, { separator, instructions }: Definition ): Leaf[] {
+export function parseText( text: string, { separator, instructions }: Definition ): Leaf[] {
 	const parts = text.split( separator );
 
 	return parts

@@ -3,7 +3,7 @@ import { createElement } from "@wordpress/element";
 import { SelectControl } from "@wordpress/components";
 
 import Instruction from "../core/Instruction";
-import { RenderMode, RenderProps } from "../core/Definition";
+import { RenderEditProps, RenderSaveProps } from "../core/Definition";
 
 /**
  * SidebarSelect class
@@ -18,14 +18,24 @@ class SidebarSelect extends Instruction {
 	}
 
 	/**
-	 * Renders the value of the select.
+	 * Renders the value of a sidebar select.
 	 *
-	 * @param mode  The render mode.
 	 * @param props The render props.
 	 *
-	 * @returns The value of the select.
+	 * @returns The value of the sidebar select.
 	 */
-	render( mode: RenderMode, props: RenderProps ): string {
+	save( props: RenderSaveProps ): string {
+		return props.attributes[ this.options.name ] as string || this.options.values[ 0 ];
+	}
+
+	/**
+	 * Renders the value of a sidebar select.
+	 *
+	 * @param props The render props.
+	 *
+	 * @returns The value of the sidebar select.
+	 */
+	edit( props: RenderEditProps ): string {
 		return props.attributes[ this.options.name ] as string || this.options.values[ 0 ];
 	}
 

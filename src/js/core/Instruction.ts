@@ -1,6 +1,6 @@
 import Leaf from "./Leaf";
 import { BlockConfiguration } from "@wordpress/blocks";
-import { RenderMode, RenderProps } from "./Definition";
+import { RenderSaveProps, RenderEditProps } from "./Definition";
 import { ReactElement } from "@wordpress/element";
 
 export type InstructionOptions = Record<string, string | boolean | number | Array<string> | Array<boolean> | Array<number>>;
@@ -31,16 +31,28 @@ export default abstract class Instruction {
 
 	/* eslint-disable @typescript-eslint/no-unused-vars */
 	/**
-	 * Renders the element.
+	 * Renders editing the element.
 	 *
-	 * @param mode  The render mode.
 	 * @param props} props The props.
 	 * @param leaf  The leaf being rendered.
 	 * @param i      The number the rendered element is of it's parent.
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
-	render( mode: RenderMode, props: RenderProps, leaf: Leaf, i: number ): ReactElement | string {
+	save( props: RenderSaveProps, leaf: Leaf, i: number ): ReactElement | string {
+		return null;
+	}
+
+	/**
+	 * Renders saving the element.
+	 *
+	 * @param props} props The props.
+	 * @param leaf  The leaf being rendered.
+	 * @param i      The number the rendered element is of it's parent.
+	 *
+	 * @returns {JSX.Element} The element to render.
+	 */
+	edit( props: RenderEditProps, leaf: Leaf, i: number ): ReactElement | string {
 		return null;
 	}
 
@@ -52,7 +64,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns The sidebar element to render.
 	 */
-	sidebar( props: RenderProps, i: number ): ReactElement | string {
+	sidebar( props: RenderEditProps, i: number ): ReactElement | string {
 		return null;
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */

@@ -2,7 +2,7 @@ import { createElement } from "@wordpress/element";
 import { TextControl } from "@wordpress/components";
 
 import Instruction from "../core/Instruction";
-import { RenderMode, RenderProps } from "../core/Definition";
+import { RenderSaveProps, RenderEditProps } from "../core/Definition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 
 /**
@@ -19,12 +19,22 @@ class SidebarInput extends Instruction {
 	/**
 	 * Renders the value of a sidebar input.
 	 *
-	 * @param mode  The render mode.
 	 * @param props The render props.
 	 *
 	 * @returns The value of the sidebar input.
 	 */
-	render( mode: RenderMode, props: RenderProps ): string {
+	save( props: RenderSaveProps ): string {
+		return props.attributes[ this.options.name ] as string || this.options.default;
+	}
+
+	/**
+	 * Renders the value of a sidebar input.
+	 *
+	 * @param props The render props.
+	 *
+	 * @returns The value of the sidebar input.
+	 */
+	edit( props: RenderEditProps ): string {
 		return props.attributes[ this.options.name ] as string || this.options.default;
 	}
 

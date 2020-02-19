@@ -6,12 +6,13 @@ import { merge } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 
-export enum RenderMode {
-	edit = "edit",
-	save = "save",
+export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
+	clientId?: string;
 }
 
-export type RenderProps = BlockEditProps<Record<string, unknown>> | BlockSaveProps<Record<string, unknown>>;
+export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>> {
+	clientId?: string;
+}
 
 type MutableBlockConfiguration = {
 	-readonly [K in keyof BlockConfiguration]: BlockConfiguration[K]
@@ -25,6 +26,7 @@ export default class Definition {
 	public template: string;
 	public instructions: Instruction[];
 	public tree: Leaf[];
+
 	/**
 	 * Creates a block definition.
 	 *
@@ -46,22 +48,19 @@ export default class Definition {
 	}
 
 	/**
-	 * Renders the block.
+	 * Renders editing the block.
 	 *
-	 * @param {RenderMode}  mode  The render mode, "edit" or "save".
 	 * @param {RenderProps} props The props.
 	 *
 	 * @returns {JSX.Element} The rendered block.
 	 */
-	render( mode: RenderMode, props: RenderProps ): ReactElement {
-		const elements = this.tree.map( ( leaf, i ) => leaf.render( mode, props, i ) ).filter( e => e !== null );
+	edit( props: RenderEditProps ): JSX.Element {
+		const elements = this.tree.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
-		if ( mode === "edit" ) {
-			const sidebarElements = this.instructions.map( ( instruction, i ) => instruction.sidebar( props, i ) ).filter( e => e !== null );
-			if ( sidebarElements.length > 0 ) {
-				const sidebar = createElement( InspectorControls, null, sidebarElements );
-				elements.unshift( sidebar );
-			}
+		const sidebarElements = this.instructions.map( ( instruction, i ) => instruction.sidebar( props, i ) ).filter( e => e !== null );
+		if ( sidebarElements.length > 0 ) {
+			const sidebar = createElement( InspectorControls, null, sidebarElements );
+			elements.unshift( sidebar );
 		}
 
 		if ( elements.length === 1 ) {
@@ -72,9 +71,24 @@ export default class Definition {
 	}
 
 	/**
-	 * Registers the block with Gutenberg.
+	 * Renders saving the block.
 	 *
-	 * @returns {void}
+	 * @param {RenderProps} props The props.
+	 *
+	 * @returns {JSX.Element} The rendered block.
+	 */
+	save( props: RenderSaveProps ): JSX.Element {
+		const elements = this.tree.map( ( leaf, i ) => leaf.save( props, i ) ).filter( e => e !== null );
+
+		if ( elements.length === 1 ) {
+			return elements[ 0 ] as ReactElement;
+		}
+
+		return createElement( Fragment, null, elements );
+	}
+
+	/**
+	 * Registers the block with Gutenberg.
 	 */
 	register(): void {
 		const configuration = this.instructions.reduce(
@@ -83,8 +97,8 @@ export default class Definition {
 		const name = configuration.name;
 		delete configuration.name;
 
-		configuration.edit = props => this.render( RenderMode.edit, props );
-		configuration.save = props => this.render( RenderMode.save, props );
+		configuration.edit = props => this.edit( props );
+		configuration.save = props => this.save( props );
 
 		registerBlockType( name, configuration );
 	}

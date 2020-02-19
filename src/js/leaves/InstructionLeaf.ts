@@ -1,6 +1,6 @@
 import Leaf from "../core/Leaf";
 import Instruction from "../core/Instruction";
-import { RenderMode, RenderProps } from "../core/Definition";
+import { RenderEditProps, RenderSaveProps } from "../core/Definition";
 
 /**
  * InstructionLeaf class.
@@ -21,17 +21,27 @@ export default class InstructionLeaf extends Leaf {
 		this.instruction = instruction;
 	}
 
+	/**
+	 * Renders editing a leaf.
+	 *
+	 * @param props The render props.
+	 * @param i     The number child this leaf is.
+	 *
+	 * @returns The rendered element.
+	 */
+	save( props: RenderSaveProps, i: number ): JSX.Element | string {
+		return this.instruction.save( props, this, i );
+	}
 
 	/**
-     * Renders the instruction leaf.
-     *
-     * @param mode  The render mode.
-     * @param props The render props.
-     * @param i     The number child this leaf is.
-     *
-     * @returns The rendered leaf.
-     */
-	render( mode: RenderMode, props: RenderProps, i: number ): JSX.Element | string {
-		return this.instruction.render( mode, props, this, i );
+	 * Renders saving a leaf.
+	 *
+	 * @param props The render props.
+	 * @param i     The number child this leaf is.
+	 *
+	 * @returns The rendered element.
+	 */
+	edit( props: RenderEditProps, i: number ): JSX.Element | string {
+		return this.instruction.edit( props, this, i );
 	}
 }
