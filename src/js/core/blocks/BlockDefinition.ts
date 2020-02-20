@@ -3,8 +3,8 @@ import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps }
 import { InspectorControls } from "@wordpress/block-editor";
 import { merge } from "lodash";
 
-import Instruction from "./Instruction";
-import Leaf from "./Leaf";
+import BlockInstruction from "./BlockInstruction";
+import BlockLeaf from "./BlockLeaf";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId?: string;
@@ -19,16 +19,16 @@ type MutableBlockConfiguration = {
 }
 
 /**
- * Definition clas
+ * BlockDefinition clas
  */
-export default class Definition {
+export default class BlockDefinition {
 	public separator: string;
 	public template: string;
-	public instructions: Instruction[];
-	public tree: Leaf[];
+	public instructions: BlockInstruction[];
+	public tree: BlockLeaf[];
 
 	/**
-	 * Creates a block definition.
+	 * Creates a block BlockDefinition.
 	 *
 	 * @param separator    The separator used.
 	 * @param template     The template.
@@ -38,8 +38,8 @@ export default class Definition {
 	constructor(
 		separator: string,
 		template = "",
-		instructions: Instruction[] = [],
-		tree: Leaf[] = [],
+		instructions: BlockInstruction[] = [],
+		tree: BlockLeaf[] = [],
 	) {
 		this.separator = separator;
 		this.template = template;
@@ -88,7 +88,7 @@ export default class Definition {
 	}
 
 	/**
-	 * Returns the configuration of this definition.
+	 * Returns the configuration of this BlockDefinition.
 	 *
 	 *@returns The configuration.
 	 */

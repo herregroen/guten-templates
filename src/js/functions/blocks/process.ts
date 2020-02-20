@@ -1,7 +1,7 @@
 import { camelCase } from "lodash";
 
-import Definition from "../core/Definition";
-import Instruction from "../core/Instruction";
+import BlockDefinition from "../core/BlockDefinition";
+import BlockInstruction from "../core/BlockInstruction";
 import { IToken } from "tokenizr";
 
 let id = 0;
@@ -14,8 +14,8 @@ let id = 0;
  *
  * @returns The instruction.
  */
-function processInstruction( token: IToken<string>, tokens: IToken[] ) {
-	const instruction = Instruction.create( token.value, id++ );
+function processBlockInstruction( token: IToken<string>, tokens: IToken[] ) {
+	const instruction = BlockInstruction.create( token.value, id++ );
 
 	while ( tokens[ 0 ] && tokens[ 0 ].isA( "key" ) ) {
 		const key = camelCase( ( tokens.shift() as IToken<string> ).value );
@@ -39,15 +39,15 @@ function processInstruction( token: IToken<string>, tokens: IToken[] ) {
 }
 
 /**
- * Transforms an array of tokens into a template definition.
+ * Transforms an array of tokens into a template BlockDefinition.
  *
  * @param {array}  tokens    The tokens.
  * @param {string} separator A unique separator that isn't contained in any strings.
  *
- * @return {Definition} The template definition.
+ * @return {Definition} The template BlockDefinition.
  */
 export default function process( tokens: IToken[], separator: string ) {
-	const definition = new Definition( separator );
+	const definition = new BlockDefinition( separator );
 
 	while ( true ) {
 		const token = tokens.shift();
@@ -62,7 +62,7 @@ export default function process( tokens: IToken[], separator: string ) {
 		}
 
 		if ( token.isA( "definition" ) ) {
-			const instruction = processInstruction( token as IToken<string>, tokens );
+			const instruction = processBlockInstruction( token as IToken<string>, tokens );
 			definition.instructions.push( instruction );
 			definition.template += separator + instruction.id + separator;
 		}

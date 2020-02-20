@@ -2,13 +2,13 @@ import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 import { createElement } from "@wordpress/element";
 import { SelectControl } from "@wordpress/components";
 
-import Instruction from "../core/Instruction";
-import { RenderEditProps, RenderSaveProps } from "../core/Definition";
+import BlockInstruction from "../core/BlockInstruction";
+import { RenderEditProps, RenderSaveProps } from "../core/BlockDefinition";
 
 /**
  * SidebarSelect class
  */
-class SidebarSelect extends Instruction {
+class SidebarSelect extends BlockInstruction {
 	public options: {
 		name: string;
 		values: string[];
@@ -80,4 +80,4 @@ class SidebarSelect extends Instruction {
 	}
 }
 
-Instruction.register( "sidebar-select", SidebarSelect );
+BlockInstruction.register( "sidebar-select", SidebarSelect );

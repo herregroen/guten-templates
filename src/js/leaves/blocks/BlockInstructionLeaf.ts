@@ -1,12 +1,12 @@
-import Leaf from "../core/Leaf";
-import Instruction from "../core/Instruction";
-import { RenderEditProps, RenderSaveProps } from "../core/Definition";
+import BlockLeaf from "../core/BlockBlockLeaf";
+import BlockInstruction from "../core/BlockInstruction";
+import { RenderEditProps, RenderSaveProps } from "../core/BlockDefinition";
 
 /**
- * InstructionLeaf class.
+ * BlockBlockInstructionBlockLeaf class.
  */
-export default class InstructionLeaf extends Leaf {
-	public instruction: Instruction;
+export default class BlockBlockInstructionBlockLeaf extends BlockLeaf {
+	public instruction: BlockInstruction;
 
 	/**
      * Creates an instruction leaf.
@@ -15,7 +15,7 @@ export default class InstructionLeaf extends Leaf {
      * @param options     The options.
      */
 	constructor(
-		instruction: Instruction,
+		instruction: BlockInstruction,
 	) {
 		super();
 		this.instruction = instruction;

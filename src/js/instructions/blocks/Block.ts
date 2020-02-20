@@ -1,10 +1,10 @@
-import Instruction from "../core/Instruction";
+import BlockInstruction from "../core/BlockInstruction";
 import { BlockConfiguration } from "@wordpress/blocks";
 
 /**
  * Block instruction.
  */
-class Block extends Instruction {
+class Block extends BlockInstruction {
 	/**
 	 * Pass on the optoins as configuration.
 	 *
@@ -15,4 +15,4 @@ class Block extends Instruction {
 	}
 }
 
-Instruction.register( "block", Block );
+BlockInstruction.register( "block", Block );

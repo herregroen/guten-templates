@@ -1,9 +1,9 @@
 import { createElement } from "@wordpress/element";
 import { RichText as WordPressRichText } from "@wordpress/block-editor";
 
-import Instruction from "../core/Instruction";
-import { RenderSaveProps, RenderEditProps } from "../core/Definition";
-import Leaf from "../core/Leaf";
+import BlockInstruction from "../core/BlockInstruction";
+import { RenderSaveProps, RenderEditProps } from "../core/BlockDefinition";
+import BlockLeaf from "../core/BlockLeaf";
 import { BlockEditProps } from "@wordpress/blocks";
 
 interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {
@@ -17,7 +17,7 @@ interface RichTextEditProps extends WordPressRichText.Props<keyof HTMLElementTag
 /**
  * RichText instruction
  */
-class RichText extends Instruction {
+class RichText extends BlockInstruction {
 	public options: {
 		tag: keyof HTMLElementTagNameMap;
 		name: string;
@@ -35,7 +35,7 @@ class RichText extends Instruction {
 	 *
 	 * @returns The RichText element.
 	 */
-	save( props: RenderSaveProps, leaf: Leaf, i: number ) {
+	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ) {
 		return createElement( WordPressRichText.Content, this.getBaseAttributes( props, i ) as RichTextSaveProps );
 	}
 
@@ -48,7 +48,7 @@ class RichText extends Instruction {
 	 *
 	 * @returns The RichText element.
 	 */
-	edit( props: RenderEditProps, leaf: Leaf, i: number ) {
+	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ) {
 		const attributes = this.getBaseAttributes( props, i ) as RichTextEditProps;
 		attributes.onChange = ( value ) => ( props as BlockEditProps<Record<string, unknown>> ).setAttributes( { [ this.options.name ]: value } );
 		if ( this.options.placeholder ) {
@@ -101,4 +101,4 @@ class RichText extends Instruction {
 	}
 }
 
-Instruction.register( "rich-text", RichText );
+BlockInstruction.register( "rich-text", RichText );

@@ -1,16 +1,16 @@
-import Leaf from "./Leaf";
-import { RenderSaveProps, RenderEditProps } from "./Definition";
+import BlockLeaf from "./BlockLeaf";
+import { RenderSaveProps, RenderEditProps } from "./BlockDefinition";
 import { ReactElement } from "@wordpress/element";
 import { BlockConfiguration } from "@wordpress/blocks";
+import { InstructionOptions } from "../../general/core/Instruction";
 
-export type InstructionOptions = Record<string, string | boolean | number | Array<string> | Array<boolean> | Array<number>>;
-export type InstructionClass   = { new( id: number, options: InstructionOptions ): Instruction };
+export type BlockInstructionClass = { new( id: number, options: InstructionOptions ): BlockInstruction };
 
 /**
- * Instruction class.
+ * BlockInstruction class.
  */
-export default abstract class Instruction {
-	static registeredInstructions: Record<string, InstructionClass> = {};
+export default abstract class BlockInstruction {
+	static registeredBlockInstructions: Record<string, BlockInstructionClass> = {};
 
 	public id: number;
 	public options: InstructionOptions;
@@ -39,7 +39,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
-	save( props: RenderSaveProps, leaf: Leaf, i: number ): ReactElement | string {
+	save( props: RenderSaveProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
 	}
 
@@ -52,7 +52,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns {JSX.Element} The element to render.
 	 */
-	edit( props: RenderEditProps, leaf: Leaf, i: number ): ReactElement | string {
+	edit( props: RenderEditProps, leaf: BlockLeaf, i: number ): ReactElement | string {
 		return null;
 	}
 
@@ -86,8 +86,8 @@ export default abstract class Instruction {
 	 *
 	 * @returns {void}
 	 */
-	static register( name: string, instruction: InstructionClass ): void {
-		Instruction.registeredInstructions[ name ] = instruction;
+	static register( name: string, instruction: BlockInstructionClass ): void {
+		BlockInstruction.registeredBlockInstructions[ name ] = instruction;
 	}
 
 	/**
@@ -100,7 +100,7 @@ export default abstract class Instruction {
 	 * @returns The instruction instance.
 	 */
 	static create( name: string, id: number, options: InstructionOptions = {} ) {
-		const klass = Instruction.registeredInstructions[ name ];
+		const klass = BlockInstruction.registeredBlockInstructions[ name ];
 
 		if ( ! klass ) {
 			console.error( "Invalid instruction: ", this );

@@ -1,14 +1,14 @@
 import { createElement } from "@wordpress/element";
 import { TextControl } from "@wordpress/components";
 
-import Instruction from "../core/Instruction";
-import { RenderSaveProps, RenderEditProps } from "../core/Definition";
+import BlockInstruction from "../core/BlockInstruction";
+import { RenderSaveProps, RenderEditProps } from "../core/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 
 /**
  * Sidebar input instruction
  */
-class SidebarInput extends Instruction {
+class SidebarInput extends BlockInstruction {
 	public options: {
 		name: string;
 		default?: string;
@@ -77,4 +77,4 @@ class SidebarInput extends Instruction {
 	}
 }
 
-Instruction.register( "sidebar-input", SidebarInput );
+BlockInstruction.register( "sidebar-input", SidebarInput );

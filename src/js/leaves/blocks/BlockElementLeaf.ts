@@ -1,16 +1,16 @@
-import Leaf from "../core/Leaf";
-import { RenderEditProps, RenderSaveProps } from "../core/Definition";
+import BlockLeaf from "../core/BlockLeaf";
+import { RenderEditProps, RenderSaveProps } from "../core/BlockDefinition";
 import { createElement, AllHTMLAttributes } from "@wordpress/element";
 
 const attributeMap: Record<string, keyof AllHTMLAttributes<unknown>> = { "class": "className", "for": "htmlFor" };
 
 /**
- * ElementLeaf class.
+ * BlockElementLeaf class.
  */
-export default class ElementLeaf extends Leaf {
+export default class BlockElementLeaf extends BlockLeaf {
 	public tag: string;
-	public attributes: Record<keyof AllHTMLAttributes<unknown>, Leaf[]>;
-	public children: Leaf[];
+	public attributes: Record<keyof AllHTMLAttributes<unknown>, BlockLeaf[]>;
+	public children: BlockLeaf[];
 
 	/**
      * Creates an element leaf.
@@ -21,8 +21,8 @@ export default class ElementLeaf extends Leaf {
      */
 	constructor(
 		tag: string,
-		attributes: Record<string, Leaf[]> = {},
-		children: Leaf[] = [],
+		attributes: Record<string, BlockLeaf[]> = {},
+		children: BlockLeaf[] = [],
 	) {
 		super();
 		this.tag        = tag;

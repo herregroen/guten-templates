@@ -1,9 +1,9 @@
-import Leaf from "../core/Leaf";
+import BlockLeaf from "../core/BlockLeaf";
 
 /**
- * TextLeaf class.
+ * BlockTextLeaf class.
  */
-export default class TextLeaf extends Leaf {
+export default class BlockTextLeaf extends BlockLeaf {
 	public value: string;
 
 	/**

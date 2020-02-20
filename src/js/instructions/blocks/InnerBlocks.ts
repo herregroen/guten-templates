@@ -1,12 +1,12 @@
 import { createElement } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
-import Instruction from "../core/Instruction";
+import BlockInstruction from "../core/BlockInstruction";
 
 /**
  * InnerBlocks instruction
  */
-class InnerBlocks extends Instruction {
+class InnerBlocks extends BlockInstruction {
 	/**
 	 * Renders saving the instruction.
 	 *
@@ -40,4 +40,4 @@ class InnerBlocks extends Instruction {
 	}
 }
 
-Instruction.register( "inner-blocks", InnerBlocks );
+BlockInstruction.register( "inner-blocks", InnerBlocks );

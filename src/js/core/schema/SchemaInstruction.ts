@@ -1,7 +1,7 @@
 import { SchemaValue } from "./SchemaDefinition";
-import { InstructionOptions } from "../../core/Instruction";
+import { InstructionOptions } from "../../general/core/Instruction";
 
-export type SchemaInstructionClass   = { new( id: number, options: InstructionOptions ): SchemaInstruction };
+export type SchemaInstructionClass = { new( id: number, options: InstructionOptions ): SchemaInstruction };
 
 /**
  * SchemaInstruction class.
