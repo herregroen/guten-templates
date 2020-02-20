@@ -1,10 +1,11 @@
-import { createElement, Fragment, ReactElement } from "@wordpress/element";
+import { createElement, Fragment } from "@wordpress/element";
 import { registerBlockType, BlockConfiguration, BlockEditProps, BlockSaveProps } from "@wordpress/blocks";
 import { InspectorControls } from "@wordpress/block-editor";
 import { merge } from "lodash";
 
 import BlockInstruction from "./BlockInstruction";
-import BlockLeaf from "./BlockLeaf";
+import Definition from "../Definition";
+import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 
 export interface RenderEditProps extends BlockEditProps<Record<string, unknown>> {
 	clientId?: string;
@@ -21,31 +22,9 @@ type MutableBlockConfiguration = {
 /**
  * BlockDefinition clas
  */
-export default class BlockDefinition {
-	public separator: string;
-	public template: string;
+export default class BlockDefinition extends Definition {
 	public instructions: BlockInstruction[];
-	public tree: BlockLeaf[];
-
-	/**
-	 * Creates a block BlockDefinition.
-	 *
-	 * @param separator    The separator used.
-	 * @param template     The template.
-	 * @param instructions The parsed instructions.
-	 * @param tree         The parsed leaves.
-	 */
-	constructor(
-		separator: string,
-		template = "",
-		instructions: BlockInstruction[] = [],
-		tree: BlockLeaf[] = [],
-	) {
-		this.separator = separator;
-		this.template = template;
-		this.instructions = instructions;
-		this.tree = tree;
-	}
+	public tree: BlockRootLeaf;
 
 	/**
 	 * Renders editing the block.
@@ -55,7 +34,8 @@ export default class BlockDefinition {
 	 * @returns The rendered block.
 	 */
 	edit( props: RenderEditProps ): JSX.Element {
-		const elements = this.tree.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
+		// Take the children directly to avoid creating too many Fragments.
+		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
 		const sidebarElements = this.instructions.map( ( instruction, i ) => instruction.sidebar( props, i ) ).filter( e => e !== null );
 		if ( sidebarElements.length > 0 ) {
@@ -64,7 +44,7 @@ export default class BlockDefinition {
 		}
 
 		if ( elements.length === 1 ) {
-			return elements[ 0 ] as ReactElement;
+			return elements[ 0 ] as JSX.Element;
 		}
 
 		return createElement( Fragment, null, elements );
@@ -78,13 +58,7 @@ export default class BlockDefinition {
 	 * @returns The rendered block.
 	 */
 	save( props: RenderSaveProps ): JSX.Element {
-		const elements = this.tree.map( ( leaf, i ) => leaf.save( props, i ) ).filter( e => e !== null );
-
-		if ( elements.length === 1 ) {
-			return elements[ 0 ] as ReactElement;
-		}
-
-		return createElement( Fragment, null, elements );
+		return this.tree.save( props );
 	}
 
 	/**

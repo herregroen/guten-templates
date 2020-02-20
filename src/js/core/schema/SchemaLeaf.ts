@@ -1,9 +1,12 @@
 import { SchemaValue } from "./SchemaDefinition";
+import Leaf from "../Leaf";
 
 /**
  * Leaf class
  */
-export default abstract class SchemaLeaf {
+export default abstract class SchemaLeaf extends Leaf {
+	parent: SchemaLeaf;
+
 	/**
 	 * Renders a schema leaf.
 	 *

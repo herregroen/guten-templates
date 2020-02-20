@@ -1,11 +1,12 @@
 import { flatMap } from "lodash";
 
-import BlockLeaf from "../core/BlockLeaf";
-import BlockDefinition from "../core/BlockDefinition";
-import BlockInstructionLeaf from "../leaves/BlockInstructionLeaf";
-import BlockTextLeaf from "../leaves/BlockTextLeaf";
-import BlockElementLeaf from "../leaves/BlockElementLeaf";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
+import BlockDefinition from "../../core/blocks/BlockDefinition";
+import BlockInstructionLeaf from "../../leaves/blocks/BlockInstructionLeaf";
+import BlockTextLeaf from "../../leaves/blocks/BlockTextLeaf";
+import BlockElementLeaf from "../../leaves/blocks/BlockElementLeaf";
 import { AllHTMLAttributes } from "@wordpress/element";
+import BlockRootLeaf from "../../leaves/blocks/BlockRootLeaf";
 
 /**
  * Parses text into leaves.
@@ -81,7 +82,7 @@ export default function parse( definition: BlockDefinition ): BlockDefinition {
 	const parser = new DOMParser();
 	const doc    = parser.parseFromString( definition.template, "text/html" );
 
-	definition.tree = parseNodes( doc.body.childNodes, definition );
+	definition.tree = new BlockRootLeaf( parseNodes( doc.body.childNodes, definition ) );
 
 	return definition;
 }
