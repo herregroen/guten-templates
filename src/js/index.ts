@@ -1,12 +1,9 @@
-import "./instructions/RichText";
-import "./instructions/Block";
-import "./instructions/SidebarSelect";
-import "./instructions/SidebarInput";
-import "./instructions/InnerBlocks";
-import tokenize from "./functions/tokenize";
+import "./instructions";
 import process from "./functions/process";
-import parse from "./functions/parse";
-import { generateUniqueSeparator } from "./functions/separator";
+import BlockDefinition from "./core/blocks/BlockDefinition";
+import BlockInstruction from "./core/blocks/BlockInstruction";
+import SchemaDefinition from "./core/schema/SchemaDefinition";
+import SchemaInstruction from "./core/schema/SchemaInstruction";
 
 // Const template = `
 // <?block name="my/block" category="whatever" ?>
@@ -20,11 +17,18 @@ import { generateUniqueSeparator } from "./functions/separator";
 jQuery( 'script[type="text/guten-template"]' ).each( function() {
 	try {
 		const template   = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
-		const tokens     = tokenize( template );
-		const separator  = generateUniqueSeparator( template );
-		const definition = parse( process( tokens, separator ) );
+		const definition = process( template, BlockDefinition, BlockInstruction );
 		definition.register();
 	} catch ( e ) {
 		console.error( "Failed parsing guten-template", e, this );
+	}
+} );
+jQuery( 'script[type="text/schema-template"]' ).each( function() {
+	try {
+		const template   = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
+		const definition = process( template, SchemaDefinition, SchemaInstruction );
+		definition.register();
+	} catch ( e ) {
+		console.error( "Failed parsing schema-template", e, this );
 	}
 } );

@@ -1,8 +1,8 @@
 import { createElement } from "@wordpress/element";
 import { TextControl } from "@wordpress/components";
 
-import BlockInstruction from "../core/BlockInstruction";
-import { RenderSaveProps, RenderEditProps } from "../core/BlockDefinition";
+import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
 
 /**

@@ -1,5 +1,12 @@
+import { merge } from "lodash";
 import Instruction from "./Instruction";
 import Leaf from "./Leaf";
+
+export type DefinitionClass<T extends Definition> = {
+	new( separator: string, template?: string, instructions?: Instruction[], tree?: Leaf ): T;
+	separatorCharacters: string[];
+	parser: ( definition: T ) => T;
+};
 
 /**
  * Definition clas
@@ -29,4 +36,18 @@ export default abstract class Definition {
 		this.instructions = instructions;
 		this.tree = tree;
 	}
+
+	/**
+	 * Returns the configuration of this BlockDefinition.
+	 *
+	 *@returns The configuration.
+	 */
+	configuration(): Record<string, unknown> {
+		return this.instructions.reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} );
+	}
+
+	/**
+	 * Registers a definition.
+	 */
+	abstract register(): void;
 }

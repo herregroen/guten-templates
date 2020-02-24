@@ -1,43 +1,36 @@
 /**
  * Generates a random separator of a given length.
  *
- * @param length The length.
- * @param numerical Whether or not the separator should be numerical.
+ * @param length     The length.
+ * @param characters The allowed characters.
  *
  * @returns The separator.
  */
-export function generateSeparator( length: number, numerical = false ): string {
-	const chars   = numerical
-		? [ "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]" ]
-		: [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ];
-
+export function generateSeparator( length: number, characters: string[] ): string {
 	let output = "";
 
 	for ( let i = 0; i < length; i++ ) {
-		output += chars[ Math.floor( Math.random() * chars.length ) ];
+		output += characters[ Math.floor( Math.random() * characters.length ) ];
 	}
 
 	return output;
 }
 
-export function generateUniqueSeparator( text: string ): string;
-export function generateUniqueSeparator( text: string, numerical: false ): string;
-export function generateUniqueSeparator( text: string, numerical: true ): number;
 /**
  * Generates a unique separator for a given text.
  *
- * @param text The text.
- * @param numerical Whether or not the separator should be numerical.
+ * @param text       The text.
+ * @param characters The allowed characters.
  *
  * @returns The separator.
  */
-export function generateUniqueSeparator( text: string, numerical = false ) {
+export function generateUniqueSeparator( text: string, characters: string[] ): string {
 	let length = 2;
 
 	while ( true ) {
-		const separator = generateSeparator( Math.floor( length ), numerical );
+		const separator = generateSeparator( Math.floor( length ), characters );
 		if ( text.indexOf( separator ) === -1 ) {
-			return numerical ? parseInt( separator, 10 ) : separator;
+			return separator;
 		}
 		length += 0.2;
 	}

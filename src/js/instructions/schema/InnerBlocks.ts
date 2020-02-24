@@ -1,31 +1,40 @@
 import { select } from "@wordpress/data";
 
-import Instruction from "../../core/Instruction";
-import Definition, { RenderSaveProps } from "../../core/Definition";
-import { renderToString } from "@wordpress/element";
-import SchemaInstruction from "../core/SchemaInstruction";
+import SchemaInstruction from "../../core/schema/SchemaInstruction";
+import { schemaDefinitions, SchemaValue } from "../../core/schema/SchemaDefinition";
+import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * InnerBlocks instruction
  */
 class InnerBlocks extends SchemaInstruction {
+	public options: {
+		blocks?: string[];
+	}
+
 	/**
-	 * Renders the instruction.
+	 * Renders schema.
 	 *
-     * @param props The render props.
+	 * @param props The props.
 	 *
-	 * @returns The inner blocks as schema.
+	 * @returns The schema.
 	 */
-	save( props: RenderSaveProps ): string {
-		select( "core/block-editor" ).getBlocksByClientId( props.clientId )[ 0 ].innerBlocks.map( block => {
-			const schemaDefinition = Definition.registeredDefinitions.schema[ block.name ];
+	render( props: RenderSaveProps ): SchemaValue {
+		let innerBlocks = select( "core/block-editor" ).getBlocksByClientId( props.clientId )[ 0 ].innerBlocks;
+
+		if ( this.options.blocks ) {
+			innerBlocks = innerBlocks.filter( block => this.options.blocks.includes( block.name ) );
+		}
+
+		return innerBlocks.map( block => {
+			const schemaDefinition = schemaDefinitions[ block.name ];
 
 			if ( ! schemaDefinition ) {
-				return "";
+				return null;
 			}
-			return renderToString( schemaDefinition.save( { attributes: block.attributes } ) );
-		} );
+			return schemaDefinition.render( block );
+		} ).filter( schema => schema !== null );
 	}
 }
 
-Instruction.register( "schema-inner-blocks", InnerBlocks );
+SchemaInstruction.register( "inner-blocks", InnerBlocks );

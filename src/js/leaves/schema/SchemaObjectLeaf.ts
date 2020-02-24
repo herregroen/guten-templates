@@ -1,7 +1,8 @@
 import { mapValues } from "lodash";
 
-import SchemaLeaf from "../core/SchemaLeaf";
-import { SchemaObject } from "../core/SchemaDefinition";
+import SchemaLeaf from "../../core/schema/SchemaLeaf";
+import { SchemaObject } from "../../core/schema/SchemaDefinition";
+import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * SchemaObjectLeaf class
@@ -22,11 +23,11 @@ export default class SchemaObjectLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param attributes The attributes.
+	 * @param props The props.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( attributes: Record<string, unknown> ): SchemaObject {
-		return mapValues( this.object, leaf => leaf.render( attributes ) );
+	render( props: RenderSaveProps ): SchemaObject {
+		return mapValues( this.object, leaf => leaf.render( props ) );
 	}
 }

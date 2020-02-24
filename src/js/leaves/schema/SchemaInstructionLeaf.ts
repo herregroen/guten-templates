@@ -1,6 +1,7 @@
-import SchemaLeaf from "../core/SchemaLeaf";
-import { SchemaValue } from "../core/SchemaDefinition";
-import SchemaInstruction from "../core/SchemaInstruction";
+import SchemaLeaf from "../../core/schema/SchemaLeaf";
+import { SchemaValue } from "../../core/schema/SchemaDefinition";
+import SchemaInstruction from "../../core/schema/SchemaInstruction";
+import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * SchemaInstructionLeaf class
@@ -21,11 +22,11 @@ export default class SchemaInstructionLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param attributes The attributes.
+	 * @param props The props.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( attributes: Record<string, unknown> ): SchemaValue {
-		return this.instruction.render( attributes );
+	render( props: RenderSaveProps ): SchemaValue {
+		return this.instruction.render( props );
 	}
 }

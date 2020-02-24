@@ -1,5 +1,5 @@
-import SchemaLeaf from "../core/SchemaLeaf";
-import { SchemaPrimitive } from "../core/SchemaDefinition";
+import SchemaLeaf from "../../core/schema/SchemaLeaf";
+import { SchemaPrimitive } from "../../core/schema/SchemaDefinition";
 
 /**
  * SchemaConstantLeaf class

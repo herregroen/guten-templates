@@ -1,4 +1,4 @@
-import BlockLeaf from "../core/BlockLeaf";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
 
 /**
  * BlockTextLeaf class.

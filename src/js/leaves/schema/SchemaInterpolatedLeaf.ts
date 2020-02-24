@@ -1,5 +1,6 @@
-import SchemaLeaf from "../core/SchemaLeaf";
-import SchemaInstruction from "../core/SchemaInstruction";
+import SchemaLeaf from "../../core/schema/SchemaLeaf";
+import SchemaInstruction from "../../core/schema/SchemaInstruction";
+import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * SchemaInterpolatedLeaf class
@@ -20,16 +21,16 @@ export default class SchemaInterpolatedLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param attributes The attributes.
+	 * @param props The props.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( attributes: Record<string, unknown> ): string {
+	render( props: RenderSaveProps ): string {
 		return this.values.map( value => {
 			if ( typeof value === "string" ) {
 				return value;
 			}
-			return value.render( attributes ) as string;
+			return value.render( props ) as string;
 		} ).join( "" );
 	}
 }

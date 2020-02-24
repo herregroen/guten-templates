@@ -1,11 +1,13 @@
 export type InstructionOptions = Record<string, string | boolean | number | Array<string> | Array<boolean> | Array<number>>;
-export type InstructionClass<T> = { new( id: number, options: InstructionOptions ): T };
+export type InstructionClass<T extends Instruction> = {
+	new( id: number, options: InstructionOptions ): T;
+};
 
 /**
  * Abstract instruction class.
  */
 export default abstract class Instruction {
-	protected static registeredBlockInstructions: Record<string, InstructionClass<Instruction>> = {};
+	static registeredBlockInstructions: Record<string, InstructionClass<Instruction>> = {};
 
 	public id: number;
 	public options: InstructionOptions;
@@ -25,6 +27,15 @@ export default abstract class Instruction {
 	}
 
 	/**
+	 * Returns the configuration of this instruction.
+	 *
+	 * @returns The configuration.
+	 */
+	configuration(): Partial<Record<string, unknown>> {
+		return {};
+	}
+
+	/**
 	 * Register a new instruction.
 	 *
 	 * @param this        This.
@@ -33,7 +44,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns {void}
 	 */
-	static register<T extends typeof Instruction>( this: T, name: string, instruction: InstructionClass<T["prototype"]> ): void {
+	static register<I extends typeof Instruction>( this: I, name: string, instruction: InstructionClass<I["prototype"]> ): void {
 		this.registeredBlockInstructions[ name ] = instruction;
 	}
 
@@ -47,7 +58,7 @@ export default abstract class Instruction {
 	 *
 	 * @returns The instruction instance.
 	 */
-	static create<T extends typeof Instruction>( this: T, name: string, id: number, options: InstructionOptions = {} ): T["prototype"] {
+	static create<I extends typeof Instruction>( this: I, name: string, id: number, options: InstructionOptions = {} ): I["prototype"] {
 		const klass = this.registeredBlockInstructions[ name ];
 
 		if ( ! klass ) {

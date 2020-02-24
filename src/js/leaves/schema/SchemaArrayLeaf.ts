@@ -1,5 +1,6 @@
-import SchemaLeaf from "../core/SchemaLeaf";
-import { SchemaArray } from "../core/SchemaDefinition";
+import SchemaLeaf from "../../core/schema/SchemaLeaf";
+import { SchemaArray } from "../../core/schema/SchemaDefinition";
+import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * SchemaArrayLeaf class
@@ -20,11 +21,11 @@ export default class SchemaArrayLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param attributes The attributes.
+	 * @param props The props.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( attributes: Record<string, unknown> ): SchemaArray {
-		return this.array.map( leaf => leaf.render( attributes ) );
+	render( props: RenderSaveProps ): SchemaArray {
+		return this.array.map( leaf => leaf.render( props ) );
 	}
 }

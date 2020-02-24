@@ -1,4 +1,4 @@
-import BlockInstruction from "../core/BlockInstruction";
+import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { BlockConfiguration } from "@wordpress/blocks";
 
 /**

@@ -1,12 +1,12 @@
 import { mapValues } from "lodash";
 
-import SchemaDefinition, { SchemaValue } from "../core/SchemaDefinition";
-import SchemaLeaf from "../core/SchemaLeaf";
-import SchemaObjectLeaf from "../leaves/SchemaObjectLeaf";
-import SchemaArrayLeaf from "../leaves/SchemaArrayLeaf";
-import SchemaInstructionLeaf from "../leaves/SchemaInstructionLeaf";
-import SchemaConstantLeaf from "../leaves/SchemaConstantLeaf";
-import SchemaInterpolatedLeaf from "../leaves/SchemaInterpolatedLeaf";
+import SchemaDefinition, { SchemaValue } from "../../core/schema/SchemaDefinition";
+import SchemaLeaf from "../../core/schema/SchemaLeaf";
+import SchemaObjectLeaf from "../../leaves/schema/SchemaObjectLeaf";
+import SchemaArrayLeaf from "../../leaves/schema/SchemaArrayLeaf";
+import SchemaInstructionLeaf from "../../leaves/schema/SchemaInstructionLeaf";
+import SchemaConstantLeaf from "../../leaves/schema/SchemaConstantLeaf";
+import SchemaInterpolatedLeaf from "../../leaves/schema/SchemaInterpolatedLeaf";
 
 /**
  * Parses a JSON value.

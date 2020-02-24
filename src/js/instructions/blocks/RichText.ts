@@ -1,9 +1,9 @@
 import { createElement } from "@wordpress/element";
 import { RichText as WordPressRichText } from "@wordpress/block-editor";
 
-import BlockInstruction from "../core/BlockInstruction";
-import { RenderSaveProps, RenderEditProps } from "../core/BlockDefinition";
-import BlockLeaf from "../core/BlockLeaf";
+import BlockInstruction from "../../core/blocks/BlockInstruction";
+import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
+import BlockLeaf from "../../core/blocks/BlockLeaf";
 import { BlockEditProps } from "@wordpress/blocks";
 
 interface RichTextSaveProps extends WordPressRichText.ContentProps<keyof HTMLElementTagNameMap> {

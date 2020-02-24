@@ -1,7 +1,7 @@
 import { createElement } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
-import BlockInstruction from "../core/BlockInstruction";
+import BlockInstruction from "../../core/blocks/BlockInstruction";
 
 /**
  * InnerBlocks instruction
