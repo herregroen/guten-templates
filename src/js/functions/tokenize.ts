@@ -1,6 +1,10 @@
 import Tokenizr, { IToken } from "tokenizr";
+import constructor = require( "tokenizr" );
 
-const lexer = new Tokenizr();
+// The typed file from Tokenizr is incorrect so this hack is required to get the actual constructor.
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+const lexer = new constructor() as Tokenizr;
 
 lexer.rule( "default", /(.*?)({{[a-zA-Z-]+|$)/, ( ctx, matches ) => {
 	if ( matches[ 1 ] && matches[ 1 ].length > 0 ) {

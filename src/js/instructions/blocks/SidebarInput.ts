@@ -24,7 +24,7 @@ class SidebarInput extends BlockInstruction {
 	 * @returns The value of the sidebar input.
 	 */
 	save( props: RenderSaveProps ): string {
-		return props.attributes[ this.options.name ] as string || this.options.default;
+		return props.attributes[ this.options.name ] as string || this.options.default || "";
 	}
 
 	/**
@@ -35,7 +35,7 @@ class SidebarInput extends BlockInstruction {
 	 * @returns The value of the sidebar input.
 	 */
 	edit( props: RenderEditProps ): string {
-		return props.attributes[ this.options.name ] as string || this.options.default;
+		return props.attributes[ this.options.name ] as string || this.options.default || "";
 	}
 
 	/**

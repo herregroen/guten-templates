@@ -30,7 +30,7 @@ function parseValue( value: SchemaValue, definition: SchemaDefinition ): SchemaL
 	if ( typeof value === "number" ) {
 		const string = value.toString();
 		if ( string.startsWith( definition.separator ) && string.endsWith( definition.separator ) ) {
-			const instructionId = parseInt( string.replace( definition.separator, "" ), 10 );
+			const instructionId = parseInt( string.slice( definition.separator.length, -definition.separator.length ), 10 );
 			return new SchemaInstructionLeaf( definition.instructions[ instructionId ] );
 		}
 		return new SchemaConstantLeaf( value );

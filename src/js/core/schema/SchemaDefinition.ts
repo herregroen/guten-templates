@@ -13,6 +13,7 @@ export const schemaDefinitions: Record<string, SchemaDefinition> = {};
 
 export type SchemaDefinitionConfiguration = {
 	name: string;
+	onlyNested?: boolean;
 };
 
 /**
@@ -43,5 +44,16 @@ export default class SchemaDefinition extends Definition {
 		const configuration = this.configuration() as SchemaDefinitionConfiguration;
 
 		schemaDefinitions[ configuration.name ] = this;
+	}
+
+	/**
+	 * Returns whether or not schema should only be rendered for nested blocks.
+	 *
+	 * @returns Whether or not schema should only be rendered for nested blocks.
+	 */
+	onlyNested(): boolean {
+		const configuration = this.configuration() as SchemaDefinitionConfiguration;
+
+		return configuration.onlyNested === true;
 	}
 }

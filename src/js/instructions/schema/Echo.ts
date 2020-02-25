@@ -19,7 +19,7 @@ export default class Echo extends SchemaInstruction {
 	 * @returns The schema.
 	 */
 	render( props: RenderSaveProps ): SchemaValue {
-		return props.attributes[ this.options.name ] as string || this.options.default;
+		return props.attributes[ this.options.name ] as string || this.options.default || "";
 	}
 }
 

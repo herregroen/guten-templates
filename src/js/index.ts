@@ -1,9 +1,9 @@
 import "./instructions";
 import process from "./functions/process";
-import BlockDefinition from "./core/blocks/BlockDefinition";
-import BlockInstruction from "./core/blocks/BlockInstruction";
 import SchemaDefinition from "./core/schema/SchemaDefinition";
 import SchemaInstruction from "./core/schema/SchemaInstruction";
+import BlockDefinition from "./core/blocks/BlockDefinition";
+import BlockInstruction from "./core/blocks/BlockInstruction";
 
 // Const template = `
 // <?block name="my/block" category="whatever" ?>
