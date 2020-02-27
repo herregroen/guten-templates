@@ -9,6 +9,56 @@ import tokenize from "./tokenize";
 let id = 0;
 
 /**
+ * Processes an array.
+ *
+ * @param tokens The tokens.
+ *
+ * @returns The array.
+ */
+function processArray( tokens: IToken[] ): unknown[] {
+	const value = [];
+
+	// Consume the array-open token.
+	tokens.shift();
+	while ( ! tokens[ 0 ].isA( "array-close" ) ) {
+		if ( ! tokens[ 0 ].isA( "value" ) ) {
+			throw "Template parse error: Array must contain values";
+		}
+		value.push( tokens.shift().value );
+	}
+	// Consume the array-close token.
+	tokens.shift();
+
+	return value;
+}
+
+/**
+ * Processes an object.
+ *
+ * @param tokens The tokens.
+ *
+ * @returns The object.
+ */
+function processObject( tokens: IToken[] ): Record<string, unknown> {
+	const value: Record<string, unknown> = {};
+
+	// Consume the object-open token.
+	tokens.shift();
+	while ( ! tokens[ 0 ].isA( "object-close" ) ) {
+		if ( ! tokens[ 0 ].isA( "key" ) || ! tokens[ 1 ].isA( "value" ) ) {
+			throw "Template parse error: Object must contain key-value pairs";
+		}
+		const objectKey = tokens.shift().value as string;
+
+		value[ objectKey ] = tokens.shift().value;
+	}
+	// Consume the object-close token.
+	tokens.shift();
+
+	return value;
+}
+
+/**
  * Processes an instruction.
  *
  * @param token            The current token.
@@ -24,14 +74,9 @@ function processBlockInstruction( token: IToken<string>, tokens: IToken[], instr
 		const key = camelCase( ( tokens.shift() as IToken<string> ).value );
 		let value;
 		if ( tokens[ 0 ].isA( "array-open" ) ) {
-			// Consume the array-open token.
-			tokens.shift();
-			value = [];
-			while ( ! tokens[ 0 ].isA( "array-close" ) ) {
-				value.push( tokens.shift().value );
-			}
-			// Consume the array-close token.
-			tokens.shift();
+			value = processArray( tokens );
+		} else if ( tokens[ 0 ].isA( "object-open" ) ) {
+			value = processObject( tokens );
 		} else if ( tokens[ 0 ].isA( "value" ) ) {
 			value = tokens.shift().value;
 		}

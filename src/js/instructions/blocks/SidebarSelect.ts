@@ -4,39 +4,19 @@ import { SelectControl } from "@wordpress/components";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderEditProps, RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { arrayOrObjectToOptions } from "../../functions/select";
+import SidebarBase from "./abstract/SidebarBase";
 
 /**
  * SidebarSelect class
  */
-class SidebarSelect extends BlockInstruction {
+class SidebarSelect extends SidebarBase {
 	public options: {
 		name: string;
-		values: string[];
-		labels?: string[];
+		options: string[] | Record<string, string>;
 		label?: string;
 		help?: string;
-	}
-
-	/**
-	 * Renders the value of a sidebar select.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the sidebar select.
-	 */
-	save( props: RenderSaveProps ): string {
-		return props.attributes[ this.options.name ] as string || this.options.values[ 0 ];
-	}
-
-	/**
-	 * Renders the value of a sidebar select.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the sidebar select.
-	 */
-	edit( props: RenderEditProps ): string {
-		return props.attributes[ this.options.name ] as string || this.options.values[ 0 ];
+		output?: boolean;
 	}
 
 	/**
@@ -47,18 +27,11 @@ class SidebarSelect extends BlockInstruction {
 	 *
 	 * @returns The sidebar element.
 	 */
-	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ) {
-		const options = [];
-		for ( let n = 0; n < this.options.values.length; n++ ) {
-			const value = this.options.values[ n ];
-			const label = this.options.labels && this.options.labels[ n ] || this.options.values[ n ];
-			options.push( { label, value } );
-		}
-
+	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ): JSX.Element {
 		return createElement( SelectControl, {
 			label: this.options.label,
 			value: props.attributes[ this.options.name ] as string,
-			options,
+			options: arrayOrObjectToOptions( this.options.options ),
 			onChange: value => props.setAttributes( { [ this.options.name ]: value } ),
 			key: i,
 		} );
@@ -77,6 +50,17 @@ class SidebarSelect extends BlockInstruction {
 				},
 			},
 		};
+	}
+
+	/**
+	 * Renders the value of a sidebar select.
+	 *
+	 * @param props The render props.
+	 *
+	 * @returns The value of the sidebar select.
+	 */
+	protected value( props: RenderSaveProps | RenderEditProps ): string {
+		return props.attributes[ this.options.name ] as string || arrayOrObjectToOptions( this.options.options )[ 0 ].value;
 	}
 }
 

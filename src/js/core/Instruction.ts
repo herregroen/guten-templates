@@ -1,4 +1,5 @@
-export type InstructionOptions = Record<string, string | boolean | number | Array<string> | Array<boolean> | Array<number>>;
+export type InstructionOptions =
+	Record<string, string | boolean | number | Array<string | boolean | number> | Record<string, string | boolean | number>>;
 export type InstructionClass<T extends Instruction> = {
 	new( id: number, options: InstructionOptions ): T;
 };

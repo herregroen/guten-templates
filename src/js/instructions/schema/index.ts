@@ -1,3 +1,3 @@
-import "./Echo";
+import "./Attribute";
 import "./InnerBlocks";
-import "./StripHTML";
+import "./Attribute";

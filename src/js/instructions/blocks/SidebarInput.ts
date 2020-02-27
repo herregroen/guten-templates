@@ -4,38 +4,18 @@ import { TextControl } from "@wordpress/components";
 import BlockInstruction from "../../core/blocks/BlockInstruction";
 import { RenderSaveProps, RenderEditProps } from "../../core/blocks/BlockDefinition";
 import { BlockEditProps, BlockConfiguration } from "@wordpress/blocks";
+import SidebarBase from "./abstract/SidebarBase";
 
 /**
  * Sidebar input instruction
  */
-class SidebarInput extends BlockInstruction {
+class SidebarInput extends SidebarBase {
 	public options: {
 		name: string;
 		default?: string;
 		label?: string;
 		help?: string;
-	}
-
-	/**
-	 * Renders the value of a sidebar input.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the sidebar input.
-	 */
-	save( props: RenderSaveProps ): string {
-		return props.attributes[ this.options.name ] as string || this.options.default || "";
-	}
-
-	/**
-	 * Renders the value of a sidebar input.
-	 *
-	 * @param props The render props.
-	 *
-	 * @returns The value of the sidebar input.
-	 */
-	edit( props: RenderEditProps ): string {
-		return props.attributes[ this.options.name ] as string || this.options.default || "";
+		output?: boolean;
 	}
 
 	/**
@@ -46,7 +26,7 @@ class SidebarInput extends BlockInstruction {
 	 *
 	 * @returns The sidebar element.
 	 */
-	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ) {
+	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ): JSX.Element {
 		const attributes: TextControl.Props = {
 			label: this.options.label,
 			value: props.attributes[ this.options.name ] as string,
@@ -74,6 +54,17 @@ class SidebarInput extends BlockInstruction {
 				},
 			},
 		};
+	}
+
+	/**
+	 * Renders the value of a sidebar input.
+	 *
+	 * @param props The render props.
+	 *
+	 * @returns The value of the sidebar input.
+	 */
+	protected value( props: RenderSaveProps | RenderEditProps ): string {
+		return props.attributes[ this.options.name ] as string || this.options.default || "";
 	}
 }
 

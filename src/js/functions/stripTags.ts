@@ -26,11 +26,11 @@ function stripTagsFromNodes( nodes: NodeListOf<ChildNode>, allowedTags: string[]
  * Strips tags from HTML.
  *
  * @param html The HTML.
- * @param allowedTags The allowed tags.
+ * @param allowedTags Optional. The allowed tags.
  *
  * @returns The stripped HTML.
  */
-export default function stripTags( html: string, allowedTags: string[] ): string {
+export default function stripTags( html: string, allowedTags: string[] = [] ): string {
 	const parser = new DOMParser();
 	const document = parser.parseFromString( html, "text/html" );
 

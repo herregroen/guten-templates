@@ -4,15 +4,7 @@ import SchemaDefinition from "./core/schema/SchemaDefinition";
 import SchemaInstruction from "./core/schema/SchemaInstruction";
 import BlockDefinition from "./core/blocks/BlockDefinition";
 import BlockInstruction from "./core/blocks/BlockInstruction";
-
-// Const template = `
-// <?block name="my/block" category="whatever" ?>
-// <div class="whatever">
-//     <?rich-text tag="p" name="content" ?>
-//     <div class="<?field array=[1,2,3] name="imageWrapperClass" type="text" label="Mooi" bool=false other=true ?>">TEST!</div>
-// </div>
-// <span class="<?post-meta name="bla" ?>"></span>
-// `.split( "\n" ).map( s => s.trim() ).join( "" );
+import watch from "./functions/gutenberg/watch";
 
 jQuery( 'script[type="text/guten-template"]' ).each( function() {
 	try {
@@ -32,3 +24,6 @@ jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		console.error( "Failed parsing schema-template", e, this );
 	}
 } );
+
+// Watch Gutenberg for block changes that require schema updates.
+watch();

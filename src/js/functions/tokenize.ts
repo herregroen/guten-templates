@@ -1,10 +1,6 @@
 import Tokenizr, { IToken } from "tokenizr";
-import constructor = require( "tokenizr" );
 
-// The typed file from Tokenizr is incorrect so this hack is required to get the actual constructor.
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-const lexer = new constructor() as Tokenizr;
+const lexer = new Tokenizr();
 
 lexer.rule( "default", /(.*?)({{[a-zA-Z-]+|$)/, ( ctx, matches ) => {
 	if ( matches[ 1 ] && matches[ 1 ].length > 0 ) {
@@ -29,6 +25,26 @@ lexer.rule( "definition", /\s*([a-zA-Z][a-zA-Z0-9-_]*)=/, ( ctx, matches ) => {
 	ctx.state( "definition-value" );
 }, "options-object-key" );
 
+// Open object
+lexer.rule( "definition-value", /\s*\{/, ( ctx ) => {
+	ctx.tag( "object" );
+	ctx.accept( "object-open" );
+	ctx.state( "definition-key" );
+}, "open-object" );
+
+// Close object
+lexer.rule( "definition-value #object", /\s*]/, ( ctx ) => {
+	ctx.untag( "object" );
+	ctx.accept( "object-close" );
+	ctx.state( "definition" );
+}, "close-object" );
+
+// Object keys
+lexer.rule( "definition-key #object", /\s*"([^"\\]+|\\.)*":/, ( ctx, matches ) => {
+	ctx.accept( "key", matches[ 1 ] );
+	ctx.state( "definition-value" );
+}, "object-key" );
+
 // Open array
 lexer.rule( "definition-value", /\s*\[/, ( ctx ) => {
 	ctx.tag( "array" );
@@ -50,7 +66,7 @@ lexer.rule( "definition-value #array", /\s*,/, ( ctx ) => {
 // Number values
 lexer.rule( "definition-value", /\s*(\d+)/, ( ctx, matches ) => {
 	ctx.accept( "value", parseInt( matches[ 1 ], 10 ) );
-	if ( ! ctx.tagged( "array" ) ) {
+	if ( ! ctx.tagged( "array" ) && ! ctx.tagged( "object" ) ) {
 		ctx.state( "definition" );
 	}
 }, "number-value" );
@@ -58,7 +74,7 @@ lexer.rule( "definition-value", /\s*(\d+)/, ( ctx, matches ) => {
 // Boolean values
 lexer.rule( "definition-value", /\s*(true|false)/, ( ctx, matches ) => {
 	ctx.accept( "value", matches[ 1 ] === "true" );
-	if ( ! ctx.tagged( "array" ) ) {
+	if ( ! ctx.tagged( "array" ) && ! ctx.tagged( "object" ) ) {
 		ctx.state( "definition" );
 	}
 }, "boolean-value" );
@@ -66,7 +82,7 @@ lexer.rule( "definition-value", /\s*(true|false)/, ( ctx, matches ) => {
 // String values
 lexer.rule( "definition-value", /\s*"([^"\\]+|\\.)*"/, ( ctx, matches ) => {
 	ctx.accept( "value", matches[ 1 ] );
-	if ( ! ctx.tagged( "array" ) ) {
+	if ( ! ctx.tagged( "array" ) && ! ctx.tagged( "object" ) ) {
 		ctx.state( "definition" );
 	}
 }, "string-value" );
