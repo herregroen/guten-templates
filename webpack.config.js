@@ -26,6 +26,7 @@ module.exports = {
 		"@wordpress/block-editor": "window.wp.blockEditor",
 		"@wordpress/components": "window.wp.components",
 		"@wordpress/data": "window.wp.data",
+		"@wordpress/editor": "window.wp.editor",
 		"@wordpress/i18n": "window.wp.i18n",
 	},
 };

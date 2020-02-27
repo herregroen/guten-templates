@@ -2,7 +2,7 @@ import SchemaInstruction from "./SchemaInstruction";
 import SchemaLeaf from "./SchemaLeaf";
 import Definition from "../Definition";
 import parse from "../../functions/schema/parse";
-import { RenderSaveProps } from "../blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 export type SchemaPrimitive = string | number | boolean;
 export type SchemaValue = SchemaPrimitive | SchemaObject | SchemaArray;
@@ -13,7 +13,8 @@ export const schemaDefinitions: Record<string, SchemaDefinition> = {};
 
 export type SchemaDefinitionConfiguration = {
 	name: string;
-	onlyNested?: boolean;
+	"only-nested"?: boolean;
+	"separate-in-graph"?: boolean;
 };
 
 /**
@@ -29,12 +30,12 @@ export default class SchemaDefinition extends Definition {
 	/**
 	 * Renders a schema definition.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( props: RenderSaveProps ): SchemaValue {
-		return this.tree.render( props );
+	render( block: BlockInstance ): SchemaValue {
+		return this.tree.render( block );
 	}
 
 	/**
@@ -54,6 +55,17 @@ export default class SchemaDefinition extends Definition {
 	onlyNested(): boolean {
 		const configuration = this.configuration() as SchemaDefinitionConfiguration;
 
-		return configuration.onlyNested === true;
+		return configuration[ "only-nested" ] === true;
+	}
+
+	/**
+	 * Returns whether or not schema should be rendered even for nested blocks.
+	 *
+	 * @returns Whether or not schema should be rendered even for nested blocks.
+	 */
+	separateInGraph(): boolean {
+		const configuration = this.configuration() as SchemaDefinitionConfiguration;
+
+		return configuration[ "separate-in-graph" ] === true;
 	}
 }

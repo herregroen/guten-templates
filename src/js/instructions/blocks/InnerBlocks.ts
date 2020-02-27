@@ -7,6 +7,11 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
  * InnerBlocks instruction
  */
 class InnerBlocks extends BlockInstruction {
+	public options: {
+		"allowed-blocks": string[];
+		appender: string;
+	};
+
 	/**
 	 * Renders saving the instruction.
 	 *
@@ -32,8 +37,8 @@ class InnerBlocks extends BlockInstruction {
 		if ( this.options.appender === "default" ) {
 			attributes.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
 		}
-		if ( this.options.allowedBlocks ) {
-			attributes.allowedBlocks = this.options.allowedBlocks as string[];
+		if ( this.options[ "allowed-blocks" ] ) {
+			attributes.allowedBlocks = this.options[ "allowed-blocks" ];
 		}
 
 		return createElement( WordPressInnerBlocks, attributes );

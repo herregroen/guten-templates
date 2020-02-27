@@ -1,6 +1,7 @@
+import { BlockInstance } from "@wordpress/blocks";
+
 import SchemaLeaf from "../../core/schema/SchemaLeaf";
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
-import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * SchemaInterpolatedLeaf class
@@ -21,16 +22,16 @@ export default class SchemaInterpolatedLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( props: RenderSaveProps ): string {
+	render( block: BlockInstance ): string {
 		return this.values.map( value => {
 			if ( typeof value === "string" ) {
 				return value;
 			}
-			return value.render( props ) as string;
+			return value.render( block ) as string;
 		} ).join( "" );
 	}
 }

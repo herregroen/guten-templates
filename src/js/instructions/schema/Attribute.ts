@@ -1,7 +1,7 @@
 import { SchemaValue } from "../../core/schema/SchemaDefinition";
-import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
-import stripTags from "../../functions/stripTags";
+import { stripTags } from "../../functions/html";
+import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * SchemaInstruction class.
@@ -16,12 +16,12 @@ export default class Attribute extends SchemaInstruction {
 	/**
 	 * Renders schema.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The schema.
 	 */
-	render( props: RenderSaveProps ): SchemaValue {
-		const html = props.attributes[ this.options.name ] as string || this.options.default;
+	render( block: BlockInstance ): SchemaValue {
+		const html = block.attributes[ this.options.name ] as string || this.options.default;
 		return stripTags( html, this.options.allowedTags );
 	}
 }

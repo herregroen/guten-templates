@@ -11,7 +11,7 @@ import { __ } from "@wordpress/i18n";
 /**
  * Sidebar input instruction
  */
-class SidebarInput extends SidebarBase {
+class SidebarDuration extends SidebarBase {
 	public options: {
 		name: string;
 		default?: string;
@@ -113,4 +113,4 @@ class SidebarInput extends SidebarBase {
 	}
 }
 
-BlockInstruction.register( "sidebar-input", SidebarInput );
+BlockInstruction.register( "sidebar-duration", SidebarDuration );

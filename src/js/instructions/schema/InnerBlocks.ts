@@ -2,37 +2,37 @@ import { select } from "@wordpress/data";
 
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
 import { schemaDefinitions, SchemaValue } from "../../core/schema/SchemaDefinition";
-import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * InnerBlocks instruction
  */
 class InnerBlocks extends SchemaInstruction {
 	public options: {
-		blocks?: string[];
+		"allowed-blocks"?: string[];
 	}
 
 	/**
 	 * Renders schema.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The schema.
 	 */
-	render( props: RenderSaveProps ): SchemaValue {
-		let innerBlocks = select( "core/block-editor" ).getBlocksByClientId( props.clientId )[ 0 ].innerBlocks;
+	render( block: BlockInstance ): SchemaValue {
+		let innerBlocks = select( "core/block-editor" ).getBlocksByClientId( block.clientId )[ 0 ].innerBlocks;
 
-		if ( this.options.blocks ) {
-			innerBlocks = innerBlocks.filter( block => this.options.blocks.includes( block.name ) );
+		if ( this.options[ "allowed-blocks" ] ) {
+			innerBlocks = innerBlocks.filter( innerBlock => this.options[ "allowed-blocks" ].includes( innerBlock.name ) );
 		}
 
-		return innerBlocks.map( block => {
-			const schemaDefinition = schemaDefinitions[ block.name ];
+		return innerBlocks.map( innerBlock => {
+			const schemaDefinition = schemaDefinitions[ innerBlock.name ];
 
 			if ( ! schemaDefinition ) {
 				return null;
 			}
-			return schemaDefinition.render( block );
+			return schemaDefinition.render( innerBlock );
 		} ).filter( schema => schema !== null );
 	}
 }

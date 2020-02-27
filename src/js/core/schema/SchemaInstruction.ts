@@ -1,6 +1,6 @@
 import { SchemaValue, SchemaDefinitionConfiguration } from "./SchemaDefinition";
 import Instruction, { InstructionOptions } from "../Instruction";
-import { RenderSaveProps } from "../blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 export type SchemaInstructionClass = { new( id: number, options: InstructionOptions ): SchemaInstruction };
 
@@ -12,11 +12,11 @@ export default abstract class SchemaInstruction extends Instruction {
 	/**
 	 * Renders schema.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The schema.
 	 */
-	render( props: RenderSaveProps ): SchemaValue {
+	render( block: BlockInstance ): SchemaValue {
 		return null;
 	}
 	/* eslint-enable @typescript-eslint/no-unused-vars */

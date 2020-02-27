@@ -13,6 +13,7 @@ class SidebarInput extends SidebarBase {
 	public options: {
 		name: string;
 		default?: string;
+		type?: string;
 		label?: string;
 		help?: string;
 		output?: boolean;
@@ -36,6 +37,9 @@ class SidebarInput extends SidebarBase {
 
 		if ( this.options.help ) {
 			attributes.help = this.options.help;
+		}
+		if ( this.options.type ) {
+			attributes.type = this.options.type;
 		}
 
 		return createElement( TextControl, attributes );

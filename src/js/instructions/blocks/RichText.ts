@@ -11,7 +11,7 @@ class RichText extends RichTextBase {
 		name: string;
 		class: string;
 		placeholder: string;
-		multiline: boolean;
+		multiline: boolean | "li" | "p";
 	};
 
 	/**

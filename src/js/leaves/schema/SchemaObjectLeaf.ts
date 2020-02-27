@@ -1,8 +1,8 @@
 import { mapValues } from "lodash";
+import { BlockInstance } from "@wordpress/blocks";
 
 import SchemaLeaf from "../../core/schema/SchemaLeaf";
 import { SchemaObject } from "../../core/schema/SchemaDefinition";
-import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
 
 /**
  * SchemaObjectLeaf class
@@ -23,11 +23,19 @@ export default class SchemaObjectLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( props: RenderSaveProps ): SchemaObject {
-		return mapValues( this.object, leaf => leaf.render( props ) );
+	render( block: BlockInstance ): SchemaObject {
+		const object = mapValues( this.object, leaf => leaf.render( block ) );
+
+		for ( const [ key, value ] of Object.entries( object ) ) {
+			if ( value === null || typeof value === "undefined" ) {
+				delete object[ key ];
+			}
+		}
+
+		return object;
 	}
 }

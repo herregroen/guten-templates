@@ -17,10 +17,6 @@ export default abstract class SidebarBase extends BlockInstruction {
 	 * @returns The value of the sidebar input.
 	 */
 	save( props: RenderSaveProps ): JSX.Element | string {
-		if ( this.options.output === false ) {
-			return "";
-		}
-
 		return this.value( props );
 	}
 
@@ -32,11 +28,16 @@ export default abstract class SidebarBase extends BlockInstruction {
 	 * @returns The value of the sidebar input.
 	 */
 	edit( props: RenderEditProps ): JSX.Element | string {
-		if ( this.options.output === false ) {
-			return "";
-		}
-
 		return this.value( props );
+	}
+
+	/**
+	 * Returns whether or not this instruction should be included in the tree.
+	 *
+	 * @returns Whether or not to render this instruction.
+	 */
+	renderable(): boolean {
+		return this.options.output !== false;
 	}
 
 

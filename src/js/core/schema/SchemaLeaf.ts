@@ -1,6 +1,6 @@
 import { SchemaValue } from "./SchemaDefinition";
 import Leaf from "../Leaf";
-import { RenderSaveProps } from "../blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * Leaf class
@@ -11,9 +11,9 @@ export default abstract class SchemaLeaf extends Leaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The rendered schema.
 	 */
-	abstract render( props: RenderSaveProps ): SchemaValue
+	abstract render( block: BlockInstance ): SchemaValue
 }

@@ -1,6 +1,6 @@
 import SchemaLeaf from "../../core/schema/SchemaLeaf";
 import { SchemaArray } from "../../core/schema/SchemaDefinition";
-import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * SchemaArrayLeaf class
@@ -21,11 +21,11 @@ export default class SchemaArrayLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( props: RenderSaveProps ): SchemaArray {
-		return this.array.map( leaf => leaf.render( props ) );
+	render( block: BlockInstance ): SchemaArray {
+		return this.array.map( leaf => leaf.render( block ) );
 	}
 }

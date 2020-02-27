@@ -37,6 +37,15 @@ export default abstract class Instruction {
 	}
 
 	/**
+	 * Returns whether or not this instruction should be included in the tree.
+	 *
+	 * @returns Whether or not to render this instruction.
+	 */
+	renderable(): boolean {
+		return true;
+	}
+
+	/**
 	 * Register a new instruction.
 	 *
 	 * @param this        This.

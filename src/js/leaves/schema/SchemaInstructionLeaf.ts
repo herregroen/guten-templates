@@ -1,7 +1,7 @@
 import SchemaLeaf from "../../core/schema/SchemaLeaf";
 import { SchemaValue } from "../../core/schema/SchemaDefinition";
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
-import { RenderSaveProps } from "../../core/blocks/BlockDefinition";
+import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * SchemaInstructionLeaf class
@@ -22,11 +22,11 @@ export default class SchemaInstructionLeaf extends SchemaLeaf {
 	/**
 	 * Renders a schema leaf.
 	 *
-	 * @param props The props.
+	 * @param block The block.
 	 *
 	 * @returns The rendered schema.
 	 */
-	render( props: RenderSaveProps ): SchemaValue {
-		return this.instruction.render( props );
+	render( block: BlockInstance ): SchemaValue {
+		return this.instruction.render( block );
 	}
 }
