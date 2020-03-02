@@ -27,6 +27,7 @@ module.exports = {
 		"@wordpress/components": "window.wp.components",
 		"@wordpress/data": "window.wp.data",
 		"@wordpress/editor": "window.wp.editor",
+		"@wordpress/hooks": "window.wp.hooks",
 		"@wordpress/i18n": "window.wp.i18n",
 	},
 };

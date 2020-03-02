@@ -15,7 +15,7 @@ export interface RenderSaveProps extends BlockSaveProps<Record<string, unknown>>
 	clientId?: string;
 }
 
-type MutableBlockConfiguration = {
+export type MutableBlockConfiguration = {
 	-readonly [K in keyof BlockConfiguration]: BlockConfiguration[K]
 }
 

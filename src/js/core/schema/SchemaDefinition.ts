@@ -13,8 +13,8 @@ export const schemaDefinitions: Record<string, SchemaDefinition> = {};
 
 export type SchemaDefinitionConfiguration = {
 	name: string;
-	"only-nested"?: boolean;
-	"separate-in-graph"?: boolean;
+	onlyNested?: boolean;
+	separateInGraph?: boolean;
 };
 
 /**
@@ -55,7 +55,7 @@ export default class SchemaDefinition extends Definition {
 	onlyNested(): boolean {
 		const configuration = this.configuration() as SchemaDefinitionConfiguration;
 
-		return configuration[ "only-nested" ] === true;
+		return configuration.onlyNested === true;
 	}
 
 	/**
@@ -66,6 +66,6 @@ export default class SchemaDefinition extends Definition {
 	separateInGraph(): boolean {
 		const configuration = this.configuration() as SchemaDefinitionConfiguration;
 
-		return configuration[ "separate-in-graph" ] === true;
+		return configuration.separateInGraph === true;
 	}
 }

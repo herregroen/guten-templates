@@ -9,7 +9,7 @@ import { BlockInstance } from "@wordpress/blocks";
  */
 class InnerBlocks extends SchemaInstruction {
 	public options: {
-		"allowed-blocks"?: string[];
+		allowedBlocks?: string[];
 	}
 
 	/**
@@ -22,8 +22,8 @@ class InnerBlocks extends SchemaInstruction {
 	render( block: BlockInstance ): SchemaValue {
 		let innerBlocks = select( "core/block-editor" ).getBlocksByClientId( block.clientId )[ 0 ].innerBlocks;
 
-		if ( this.options[ "allowed-blocks" ] ) {
-			innerBlocks = innerBlocks.filter( innerBlock => this.options[ "allowed-blocks" ].includes( innerBlock.name ) );
+		if ( this.options.allowedBlocks ) {
+			innerBlocks = innerBlocks.filter( innerBlock => this.options.allowedBlocks.includes( innerBlock.name ) );
 		}
 
 		return innerBlocks.map( innerBlock => {

@@ -8,6 +8,27 @@ let updatingSchema = false;
 let previousRootBlocks: BlockInstance[];
 
 /**
+ * Returns whether or not a schema definition should be rendered.
+ *
+ * @param definition      The definition.
+ * @param parentHasSchema Whether or not a parent has already rendered schema.
+ *
+ * @returns Whether or not this schema should be rendered.
+ */
+function shouldRenderSchema( definition: SchemaDefinition, parentHasSchema: boolean ): boolean {
+	if ( typeof definition === "undefined" ) {
+		return false;
+	}
+	if ( parentHasSchema && definition.separateInGraph() ) {
+		return true;
+	}
+	if ( ! parentHasSchema && ! definition.onlyNested() ) {
+		return true;
+	}
+	return false;
+}
+
+/**
  * Renders a block's schema and updates the attributes if it has changed.
  *
  * @param block      The block to render schema for.
@@ -15,6 +36,8 @@ let previousRootBlocks: BlockInstance[];
  */
 function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
 	const schema = definition.render( block );
+
+	console.log( "Generated shema for block: ", block, schema );
 
 	if ( isEqual( schema, block.attributes[ "yoast-schema" ] ) ) {
 		return;
@@ -31,6 +54,7 @@ function renderSchema( block: BlockInstance, definition: SchemaDefinition ) {
  * @param parentHasSchema Optional. Whether or not the parent has already rendered schema.
  */
 function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: BlockInstance[] = [], parentHasSchema = false ) {
+	console.log( "Generating schema!" );
 	for ( let i = 0; i < blocks.length; i++ ) {
 		const block = blocks[ i ];
 		const previousBlock = previousBlocks[ i ];
@@ -40,15 +64,7 @@ function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: Block
 		}
 
 		const definition = schemaDefinitions[ block.name ];
-		let shouldRenderSchema: boolean;
-		if ( parentHasSchema ) {
-			// If the parent has schema only render schema if the schema needs to be separate in the graph.
-			shouldRenderSchema = definition.separateInGraph();
-		} else {
-			// If the parent does not have schema only render schema if the schema isn't only nested.
-			shouldRenderSchema = ! definition.onlyNested();
-		}
-		if ( definition && shouldRenderSchema ) {
+		if ( shouldRenderSchema( definition, parentHasSchema ) ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
 				generateSchemaForBlocks( block.innerBlocks, previousBlock ? previousBlock.innerBlocks : [], true );

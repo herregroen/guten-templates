@@ -1,14 +1,16 @@
 import { SchemaValue } from "../../core/schema/SchemaDefinition";
 import SchemaInstruction from "../../core/schema/SchemaInstruction";
+import { stripTags } from "../../functions/html";
 import { BlockInstance } from "@wordpress/blocks";
 
 /**
  * SchemaInstruction class.
  */
-export default class Attribute extends SchemaInstruction {
+export default class HTML extends SchemaInstruction {
 	public options: {
 		name: string;
 		default?: string;
+		allowedTags?: string[];
 	}
 
 	/**
@@ -19,8 +21,14 @@ export default class Attribute extends SchemaInstruction {
 	 * @returns The schema.
 	 */
 	render( block: BlockInstance ): SchemaValue {
-		return block.attributes[ this.options.name ] as string || this.options.default;
+		const html = block.attributes[ this.options.name ] as string || this.options.default;
+
+		if ( typeof html === "undefined" ) {
+			return null;
+		}
+
+		return stripTags( html, this.options.allowedTags );
 	}
 }
 
-SchemaInstruction.register( "attribute", Attribute );
+SchemaInstruction.register( "html", HTML );

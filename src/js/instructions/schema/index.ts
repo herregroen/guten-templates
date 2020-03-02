@@ -1,7 +1,8 @@
 import "./Attribute";
 import "./BlockId";
+import "./HTML";
 import "./InnerBlocks";
-import "./InnerBlocksAttribute";
+import "./InnerBlocksHTML";
 import "./InnerBlocksID";
 import "./List";
 import "./Permalink";

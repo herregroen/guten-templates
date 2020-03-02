@@ -7,14 +7,14 @@ import { BlockInstance } from "@wordpress/blocks";
 /**
  * InnerBlocks instruction
  */
-class InnerBlocksAttribute extends SchemaInstruction {
+class InnerBlocksHTML extends SchemaInstruction {
 	public options: {
 		blocks?: Record<string, string>;
-		"allowed-tags"?: string[];
-		"only-first"?: boolean;
-		"skip-first"?: boolean;
+		allowedTags?: string[];
+		onlyFirst?: boolean;
+		skipFirst?: boolean;
 		split?: string;
-		"null-when-empty"?: boolean;
+		nullWhenEmpty?: boolean;
 	}
 
 	/**
@@ -27,20 +27,20 @@ class InnerBlocksAttribute extends SchemaInstruction {
 	render( block: BlockInstance ): SchemaValue {
 		let values = getInnerBlocksAttributes( block.clientId, this.options.blocks );
 
-		if ( this.options[ "only-first" ] === true ) {
+		if ( this.options.onlyFirst === true ) {
 			values = values.slice( 0, 1 );
-		} else if ( this.options[ "skip-first" ] === true ) {
+		} else if ( this.options.skipFirst === true ) {
 			values = values.slice( 1 );
 		}
 
-		if ( values.length === 0 && this.options[ "null-when-empty" ] ) {
+		if ( values.length === 0 && this.options.nullWhenEmpty ) {
 			return null;
 		}
 
 		const html = values.map( ( { value } ) => value ).join( this.options.split || " " );
 
-		return stripTags( html, this.options[ "allowed-tags" ] );
+		return stripTags( html, this.options.allowedTags );
 	}
 }
 
-SchemaInstruction.register( "inner-blocks-attribute", InnerBlocksAttribute );
+SchemaInstruction.register( "inner-blocks-html", InnerBlocksHTML );

@@ -1,4 +1,4 @@
-import { createElement } from "@wordpress/element";
+import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
@@ -8,7 +8,7 @@ import BlockInstruction from "../../core/blocks/BlockInstruction";
  */
 class InnerBlocks extends BlockInstruction {
 	public options: {
-		"allowed-blocks": string[];
+		allowedBlocks: string[];
 		appender: string;
 	};
 
@@ -32,13 +32,16 @@ class InnerBlocks extends BlockInstruction {
 		const attributes: WordPressInnerBlocks.Props = {};
 
 		if ( this.options.appender === "button" ) {
-			attributes.renderAppender = () => createElement( WordPressInnerBlocks.ButtonBlockerAppender );
+			attributes.renderAppender = () => {
+				// The type definition of InnerBlocks are wrong so cast to fix them.
+				return createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender );
+			};
 		}
 		if ( this.options.appender === "default" ) {
 			attributes.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
 		}
-		if ( this.options[ "allowed-blocks" ] ) {
-			attributes.allowedBlocks = this.options[ "allowed-blocks" ];
+		if ( this.options.allowedBlocks ) {
+			attributes.allowedBlocks = this.options.allowedBlocks;
 		}
 
 		return createElement( WordPressInnerBlocks, attributes );

@@ -9,6 +9,21 @@ import SidebarBase from "./abstract/SidebarBase";
 import { __ } from "@wordpress/i18n";
 
 /**
+ * Updates a duration.
+ *
+ * @param props    The props.
+ * @param name     The attribute name.
+ * @param duration The duration.
+ */
+function updateDuration( props: RenderEditProps, name: string, duration: moment.Duration ) {
+	if ( ! duration.isValid() || duration.asMinutes() === 0 ) {
+		props.setAttributes( { [ name ]: null } );
+		return;
+	}
+	props.setAttributes( { [ name ]: duration.toISOString() } );
+}
+
+/**
  * Sidebar input instruction
  */
 class SidebarDuration extends SidebarBase {
@@ -46,19 +61,19 @@ class SidebarDuration extends SidebarBase {
 
 		const hourAttributes: TextControl.Props = {
 			label: labelPrefix + __( "hours", "wordpress-seo" ),
-			value: isNaN( hours ) ? "" : hours,
+			value: isNaN( hours ) || hours === 0 ? "" : hours,
 			onChange: value => {
-				const newDuration = moment.duration( { hours: parseInt( value, 10 ), minutes } );
-				props.setAttributes( { [ this.options.name ]: newDuration.toISOString() } );
+				const newDuration = moment.duration( { hours: parseInt( value, 10 ), minutes: minutes || 0 } );
+				updateDuration( props, this.options.name, newDuration );
 			},
 			type: "number",
 		};
 		const minuteAttributes: TextControl.Props = {
 			label: labelPrefix + __( "minutes", "wordpress-seo" ),
-			value: isNaN( minutes ) ? "" : minutes,
+			value: isNaN( minutes ) || minutes === 0 ? "" : minutes,
 			onChange: value => {
-				const newDuration = moment.duration( { hours, minutes: parseInt( value, 10 ) } );
-				props.setAttributes( { [ this.options.name ]: newDuration.toISOString() } );
+				const newDuration = moment.duration( { hours: hours || 0, minutes: parseInt( value, 10 ) } );
+				updateDuration( props, this.options.name, newDuration );
 			},
 			type: "number",
 		};

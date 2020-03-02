@@ -31,7 +31,7 @@ class SidebarInput extends SidebarBase {
 		const attributes: TextControl.Props = {
 			label: this.options.label,
 			value: props.attributes[ this.options.name ] as string,
-			onChange: value => props.setAttributes( { [ this.options.name ]: value } ),
+			onChange: value => props.setAttributes( { [ this.options.name ]: this.options.type === "number" ? parseInt( value, 10 ) : value } ),
 			key: i,
 		};
 

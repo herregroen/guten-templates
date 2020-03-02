@@ -9,12 +9,12 @@ import { getBlockSchemaId } from "../../functions/gutenberg/block";
  */
 class InnerBlocksID extends SchemaInstruction {
 	public options: {
-		"allowed-blocks"?: string[];
-		"allowed-tags"?: string[];
-		"only-first"?: boolean;
-		"skip-first"?: boolean;
+		allowedBlocks?: string[];
+		allowedTags?: string[];
+		onlyFirst?: boolean;
+		skipFirst?: boolean;
 		split?: string;
-		"null-when-empty"?: boolean;
+		nullWhenEmpty?: boolean;
 	}
 
 	/**
@@ -27,17 +27,17 @@ class InnerBlocksID extends SchemaInstruction {
 	render( block: BlockInstance ): SchemaValue {
 		let innerBlocks = select( "core/block-editor" ).getBlocksByClientId( block.clientId )[ 0 ].innerBlocks;
 
-		if ( this.options[ "allowed-blocks" ] ) {
-			innerBlocks = innerBlocks.filter( innerBlock => this.options[ "allowed-blocks" ].includes( innerBlock.name ) );
+		if ( this.options.allowedBlocks ) {
+			innerBlocks = innerBlocks.filter( innerBlock => this.options.allowedBlocks.includes( innerBlock.name ) );
 		}
 
-		if ( this.options[ "only-first" ] === true ) {
+		if ( this.options.onlyFirst === true ) {
 			innerBlocks = innerBlocks.slice( 0, 1 );
-		} else if ( this.options[ "skip-first" ] === true ) {
+		} else if ( this.options.skipFirst === true ) {
 			innerBlocks = innerBlocks.slice( 1 );
 		}
 
-		if ( innerBlocks.length === 0 && this.options[ "null-when-empty" ] ) {
+		if ( innerBlocks.length === 0 && this.options.nullWhenEmpty ) {
 			return null;
 		}
 

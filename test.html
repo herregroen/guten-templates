@@ -1,8 +1,19 @@
+<script type="text/schema-template">
+    {{schema name="core/image" separate-in-graph=true }}
+    {
+        "@type": "ImageObject",
+        "@id": {{block-id}},
+        "url": {{attribute name="url" }},
+        "width": {{attribute name="width" }},
+        "height": {{attribute name="height" }},
+        "caption": {{html name="caption" }}
+    }
+</script>
 <script type="text/guten-template">
     {{block name="yoast/ingredients" title="Ingredients" category="common" parent=[ "yoast/recipe" ] }}
     <div class={{class-name}}>
-        {{variable-tag-rich-text name="title" tags=[ "h2", "h3", "h4", "h5", "h6", "strong" ] }}
-        {{variable-tag-rich-text name="ingredients" tags=["ul", "ol"] multiline="li" }}
+        {{variable-tag-rich-text name="title" tags=[ "h2", "h3", "h4", "h5", "h6", "strong" ] placeholder="Ingredients title" }}
+        {{variable-tag-rich-text name="ingredients" tags=["ul", "ol"] multiline="li" placeholder="Ingredient 1" }}
     </div>
 </script>
 <script type="text/schema-template">
@@ -19,16 +30,17 @@
     {{schema name="yoast/step" only-nested=true }}
     {
         "@type": "HowToStep",
-        "name": {{inner-blocks-attribute blocks={ "core/paragraph": "content", "core/heading": "content" } only-first=true null-when-empty=true }},
+        "name": {{inner-blocks-html blocks={ "core/paragraph": "content", "core/heading": "content" } only-first=true null-when-empty=true }},
         "url": {{block-id}},
-        "text": {{inner-blocks-attribute blocks={ "core/paragraph": "content", "core/heading": "content" } skip-first=true null-when-empty=true }},
+        "text": {{inner-blocks-html blocks={ "core/paragraph": "content", "core/heading": "content" } skip-first=true null-when-empty=true }},
         "image": {{inner-blocks-id allowed-blocks=[ "core/image" ] only-first=true null-when-empty=true }}
     }
 </script>
 <script type="text/guten-template">
-    {{block name="yoast/steps" title="Steps" category="common" parent=["yoast/recipe"]}}
+    {{block name="yoast/steps" title="Steps" category="common" parent=[ "yoast/recipe" ] }}
     <ul class={{class-name}}>
-        {{inner-blocks allowed-blocks=["yoast/step"]}}
+        {{variable-tag-rich-text name="title" tags=[ "h2", "h3", "h4", "h5", "h6", "strong" ] placeholder="Steps title" }}
+        {{inner-blocks allowed-blocks=["yoast/step"] appender="button" }}
     </ul>
 </script>
 <script type="text/schema-template">
@@ -41,8 +53,8 @@
     {{sidebar-duration name="prep-time" output=false label="Preparation time" }}
     {{sidebar-input name="yield" output=false type="number" label="Serves #" }}
     <div class={{class-name}}>
-        {{variable-tag-rich-text name="title" tags=[ "h1", "h2", "h3", "h4", "h5", "h6", "strong" ] }}
-        {{inner-blocks allowed-blocks=[ "core/paragraph", "core/image", "yoast/ingredients" ] }}
+        {{variable-tag-rich-text name="title" tags=[ "h1", "h2", "h3", "h4", "h5", "h6", "strong" ] placeholder="Recipe title" }}
+        {{inner-blocks allowed-blocks=[ "core/paragraph", "core/image", "yoast/ingredients" ] appender="button" }}
     </div>
 </script>
 <script type="text/schema-template">
@@ -54,15 +66,15 @@
             "@id": "%%main_schema_id%%"
         },
         "image": {{inner-blocks-id allowed-blocks=[ "core/image" ] only-first=true null-when-empty=true }},
-        "name": {{attribute name="title"}},
+        "name": {{html name="title"}},
         "author": {
             "@id": "%%author_id%%"
         },
-        "description": {{inner-blocks-attribute blocks={ "core/paragraph": "content" } null-when-empty=true }},
+        "description": {{inner-blocks-html blocks={ "core/paragraph": "content" } null-when-empty=true }},
         "cookTime": {{attribute name="cook-time" }},
         "prepTime": {{attribute name="prep-time" }},
-        "recipeInstructions": {{inner-blocks allowed-blocks=[ "yoast/steps" ] }},
-        "recipeIngredient": {{inner-blocks allowed-blocks=[ "yoast/ingredients" ] }},
+        "recipeInstructions": {{inner-blocks allowed-blocks=[ "yoast/steps" ] only-first=true }},
+        "recipeIngredient": {{inner-blocks allowed-blocks=[ "yoast/ingredients" ] only-first=true }},
         "recipeYield": {{attribute name="yield" }}
     }
 </script>

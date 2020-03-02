@@ -5,17 +5,8 @@ import SchemaInstruction from "./core/schema/SchemaInstruction";
 import BlockDefinition from "./core/blocks/BlockDefinition";
 import BlockInstruction from "./core/blocks/BlockInstruction";
 import watch from "./functions/gutenberg/watch";
+import filter from "./functions/gutenberg/filter";
 
-jQuery( 'script[type="text/guten-template"]' ).each( function() {
-	try {
-		const template   = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
-		const definition = process( template, BlockDefinition, BlockInstruction );
-		console.log( definition );
-		definition.register();
-	} catch ( e ) {
-		console.error( "Failed parsing guten-template", e, this );
-	}
-} );
 jQuery( 'script[type="text/schema-template"]' ).each( function() {
 	try {
 		const template   = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
@@ -23,6 +14,19 @@ jQuery( 'script[type="text/schema-template"]' ).each( function() {
 		definition.register();
 	} catch ( e ) {
 		console.error( "Failed parsing schema-template", e, this );
+	}
+} );
+
+// Filter in our schema definitions with Gutenberg.
+filter();
+
+jQuery( 'script[type="text/guten-template"]' ).each( function() {
+	try {
+		const template   = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
+		const definition = process( template, BlockDefinition, BlockInstruction );
+		definition.register();
+	} catch ( e ) {
+		console.error( "Failed parsing guten-template", e, this );
 	}
 } );
 
