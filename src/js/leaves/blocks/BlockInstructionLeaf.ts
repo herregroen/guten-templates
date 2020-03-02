@@ -30,6 +30,7 @@ export default class BlockBlockInstructionLeaf extends BlockLeaf {
 	 * @returns The rendered element.
 	 */
 	save( props: RenderSaveProps, i: number ): JSX.Element | string {
+		console.log( this.instruction );
 		return this.instruction.save( props, this, i );
 	}
 

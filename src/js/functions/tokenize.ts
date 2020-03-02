@@ -33,7 +33,7 @@ lexer.rule( "definition-value", /\s*\{/, ( ctx ) => {
 }, "open-object" );
 
 // Close object
-lexer.rule( "definition-value #object", /\s*]/, ( ctx ) => {
+lexer.rule( "definition-value #object", /\s*}/, ( ctx ) => {
 	ctx.untag( "object" );
 	ctx.accept( "object-close" );
 	ctx.state( "definition" );
@@ -44,6 +44,12 @@ lexer.rule( "definition-key #object", /\s*"([^"\\]+|\\.)*":/, ( ctx, matches ) =
 	ctx.accept( "key", matches[ 1 ] );
 	ctx.state( "definition-value" );
 }, "object-key" );
+
+// Comma in object
+lexer.rule( "definition-value #object", /\s*,/, ( ctx ) => {
+	ctx.state( "definition-key" );
+	ctx.ignore();
+}, "object-comma" );
 
 // Open array
 lexer.rule( "definition-value", /\s*\[/, ( ctx ) => {

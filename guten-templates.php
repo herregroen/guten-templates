@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function load_guten_templates() {
 	do_action( 'guten-templates' );
+	include __DIR__ . '/test.html';
 	wp_enqueue_script(
 		'guten-templates',
 		plugins_url( '/guten-templates.min.js', __FILE__ ),

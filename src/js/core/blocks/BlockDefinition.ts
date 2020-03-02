@@ -26,7 +26,7 @@ export default class BlockDefinition extends Definition {
 	public static separatorCharacters = [ "@", "#", "$", "%", "^", "&", "*", "(", ")", "{", "}", "[", "]" ];
 	public static parser = parse;
 
-	public instructions: BlockInstruction[];
+	public instructions: Record<string, BlockInstruction>;
 	public tree: BlockRootLeaf;
 
 	/**
@@ -40,7 +40,9 @@ export default class BlockDefinition extends Definition {
 		// Take the children directly to avoid creating too many Fragments.
 		const elements = this.tree.children.map( ( leaf, i ) => leaf.edit( props, i ) ).filter( e => e !== null );
 
-		const sidebarElements = this.instructions.map( ( instruction, i ) => instruction.sidebar( props, i ) ).filter( e => e !== null );
+		const sidebarElements = Object.values( this.instructions )
+			.map( ( instruction, i ) => instruction.sidebar( props, i ) )
+			.filter( e => e !== null );
 		if ( sidebarElements.length > 0 ) {
 			const sidebar = createElement( InspectorControls, null, sidebarElements );
 			elements.unshift( sidebar );

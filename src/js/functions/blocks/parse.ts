@@ -20,7 +20,7 @@ function parseText( text: string, { separator, instructions }: BlockDefinition )
 	const parts = text.split( separator );
 
 	return parts
-		.map( ( value, i ) => ( i % 2 ) ?  new BlockInstructionLeaf( instructions[ parseInt( value, 10 ) ] ) : new BlockTextLeaf( value ) )
+		.map( ( value, i ) => ( i % 2 ) ?  new BlockInstructionLeaf( instructions[ value ] ) : new BlockTextLeaf( value ) )
 		.filter( leaf => ! ( leaf instanceof BlockTextLeaf && leaf.value === "" ) );
 }
 

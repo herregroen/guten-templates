@@ -118,7 +118,7 @@ export default function process<T extends Definition>(
 
 		if ( token.isA( "definition" ) ) {
 			const instruction = processBlockInstruction( token as IToken<string>, tokens, instructionClass );
-			definition.instructions.push( instruction );
+			definition.instructions[ instruction.id ] = instruction;
 			if ( instruction.renderable() ) {
 				definition.template += separator + instruction.id + separator;
 			}

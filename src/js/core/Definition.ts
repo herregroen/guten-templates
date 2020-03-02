@@ -3,7 +3,7 @@ import Instruction from "./Instruction";
 import Leaf from "./Leaf";
 
 export type DefinitionClass<T extends Definition> = {
-	new( separator: string, template?: string, instructions?: Instruction[], tree?: Leaf ): T;
+	new( separator: string, template?: string, instructions?: Record<string, Instruction>, tree?: Leaf ): T;
 	separatorCharacters: string[];
 	parser: ( definition: T ) => T;
 };
@@ -14,7 +14,7 @@ export type DefinitionClass<T extends Definition> = {
 export default abstract class Definition {
 	public separator: string;
 	public template: string;
-	public instructions: Instruction[];
+	public instructions: Record<string, Instruction>;
 	public tree: Leaf;
 
 	/**
@@ -28,7 +28,7 @@ export default abstract class Definition {
 	constructor(
 		separator: string,
 		template = "",
-		instructions: Instruction[] = [],
+		instructions: Record<string, Instruction> = {},
 		tree: Leaf = null,
 	) {
 		this.separator = separator;
@@ -43,7 +43,7 @@ export default abstract class Definition {
 	 *@returns The configuration.
 	 */
 	configuration(): Record<string, unknown> {
-		return this.instructions.reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} );
+		return Object.values( this.instructions ).reduce( ( config, instruction ) => merge( config, instruction.configuration() ), {} );
 	}
 
 	/**

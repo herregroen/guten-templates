@@ -51,12 +51,12 @@ function generateSchemaForBlocks( blocks: BlockInstance[], previousBlocks: Block
 		if ( definition && shouldRenderSchema ) {
 			renderSchema( block, definition );
 			if ( Array.isArray( block.innerBlocks ) ) {
-				generateSchemaForBlocks( block.innerBlocks, previousBlock.innerBlocks, true );
+				generateSchemaForBlocks( block.innerBlocks, previousBlock ? previousBlock.innerBlocks : [], true );
 			}
 			continue;
 		}
 		if ( Array.isArray( block.innerBlocks ) ) {
-			generateSchemaForBlocks( block.innerBlocks, previousBlock.innerBlocks, parentHasSchema );
+			generateSchemaForBlocks( block.innerBlocks, previousBlock ? previousBlock.innerBlocks : [], parentHasSchema );
 		}
 	}
 }

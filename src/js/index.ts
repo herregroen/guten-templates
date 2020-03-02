@@ -10,6 +10,7 @@ jQuery( 'script[type="text/guten-template"]' ).each( function() {
 	try {
 		const template   = this.innerHTML.split( "\n" ).map( s => s.trim() ).join( "" );
 		const definition = process( template, BlockDefinition, BlockInstruction );
+		console.log( definition );
 		definition.register();
 	} catch ( e ) {
 		console.error( "Failed parsing guten-template", e, this );

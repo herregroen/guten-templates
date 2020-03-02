@@ -24,7 +24,7 @@ export default class SchemaDefinition extends Definition {
 	public static separatorCharacters = [ "1", "2", "3", "4", "5", "6", "7", "8", "9" ];
 	public static parser = parse;
 
-	public instructions: SchemaInstruction[];
+	public instructions: Record<string, SchemaInstruction>;
 	public tree: SchemaLeaf;
 
 	/**

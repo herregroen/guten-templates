@@ -30,7 +30,7 @@ function parseValue( value: SchemaValue, definition: SchemaDefinition ): SchemaL
 	if ( typeof value === "number" ) {
 		const string = value.toString();
 		if ( string.startsWith( definition.separator ) && string.endsWith( definition.separator ) ) {
-			const instructionId = parseInt( string.slice( definition.separator.length, -definition.separator.length ), 10 );
+			const instructionId = string.slice( definition.separator.length, -definition.separator.length );
 			return new SchemaInstructionLeaf( definition.instructions[ instructionId ] );
 		}
 		return new SchemaConstantLeaf( value );
@@ -43,7 +43,7 @@ function parseValue( value: SchemaValue, definition: SchemaDefinition ): SchemaL
 
 		const parts = value.split( definition.separator );
 		const parsedParts = parts
-			.map( ( partValue, i ) => ( i % 2 ) ?  definition.instructions[ parseInt( partValue, 10 ) ] : partValue )
+			.map( ( partValue, i ) => ( i % 2 ) ?  definition.instructions[ partValue ] : partValue )
 			.filter( partValue => partValue !== "" );
 
 		return new SchemaInterpolatedLeaf( parsedParts );
