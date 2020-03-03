@@ -1,5 +1,5 @@
 module.exports = {
-	mode: "development",
+	mode: "production",
 	watch: false,
 	entry: "./src/js/index.ts",
 	output: {
@@ -16,7 +16,7 @@ module.exports = {
 		],
 	},
 	resolve: {
-		extensions: [ ".ts", ".js", ".json" ],
+		extensions: [ ".ts", ".tsx", ".js", ".jsx", ".json" ],
 	},
 	externals: {
 		lodash: "window.lodash",

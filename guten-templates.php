@@ -18,6 +18,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function load_guten_templates() {
+	?>
+	<style>
+		.yoast-labeled-inserter {
+			position: relative;
+			width: 100%;
+		}
+		.yoast-labeled-inserter::before {
+			content: attr(data-label);
+			position: absolute;
+			left: 0;
+			height: 100%;
+			color: black;
+		}
+		.yoast-labeled-inserter > .block-editor-inserter {
+			width: 100%;
+		}
+	</style>
+	<?php
 	do_action( 'guten-templates' );
 	include __DIR__ . '/test.html';
 	wp_enqueue_script(

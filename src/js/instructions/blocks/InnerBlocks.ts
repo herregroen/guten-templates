@@ -1,4 +1,4 @@
-import { createElement, ComponentClass } from "@wordpress/element";
+import { createElement, ComponentClass, Fragment } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
@@ -10,6 +10,7 @@ class InnerBlocks extends BlockInstruction {
 	public options: {
 		allowedBlocks: string[];
 		appender: string;
+		appenderLabel: string;
 	};
 
 	/**
@@ -36,9 +37,16 @@ class InnerBlocks extends BlockInstruction {
 				// The type definition of InnerBlocks are wrong so cast to fix them.
 				return createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender );
 			};
-		}
-		if ( this.options.appender === "default" ) {
+		} else {
 			attributes.renderAppender = () => createElement( WordPressInnerBlocks.DefaultBlockAppender );
+		}
+		if ( typeof this.options.appenderLabel === "string" ) {
+			attributes.renderAppender = () =>
+				createElement(
+					"div",
+					{ className: "yoast-labeled-inserter", "data-label": this.options.appenderLabel },
+					[ createElement( ( WordPressInnerBlocks as unknown as { ButtonBlockAppender: ComponentClass } ).ButtonBlockAppender ) ],
+				);
 		}
 		if ( this.options.allowedBlocks ) {
 			attributes.allowedBlocks = this.options.allowedBlocks;
