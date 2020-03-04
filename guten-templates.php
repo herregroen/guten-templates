@@ -38,6 +38,7 @@ function load_guten_templates() {
 	<?php
 	do_action( 'guten-templates' );
 	include __DIR__ . '/test.html';
+	include __DIR__ . '/job-posting.html';
 	wp_enqueue_script(
 		'guten-templates',
 		plugins_url( '/guten-templates.min.js', __FILE__ ),

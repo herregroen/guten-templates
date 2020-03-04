@@ -17,6 +17,7 @@ class SidebarSelect extends SidebarBase {
 		label?: string;
 		help?: string;
 		output?: boolean;
+		multiple?: boolean;
 	}
 
 	/**
@@ -28,13 +29,19 @@ class SidebarSelect extends SidebarBase {
 	 * @returns The sidebar element.
 	 */
 	sidebar( props: BlockEditProps<Record<string, unknown>>, i: number ): JSX.Element {
-		return createElement( SelectControl, {
+		const attributes: SelectControl.Props<string | string[]> = {
 			label: this.options.label,
-			value: props.attributes[ this.options.name ] as string,
+			value: props.attributes[ this.options.name ] as string | string[],
 			options: arrayOrObjectToOptions( this.options.options ),
 			onChange: value => props.setAttributes( { [ this.options.name ]: value } ),
 			key: i,
-		} );
+		};
+
+		if ( this.options.multiple === true ) {
+			( attributes as SelectControl.Props<string[]> ).multiple = true;
+		}
+
+		return createElement( SelectControl, attributes );
 	}
 
 	/**
@@ -46,7 +53,7 @@ class SidebarSelect extends SidebarBase {
 		return {
 			attributes: {
 				[ this.options.name ]: {
-					type: "string",
+					type: this.options.multiple === true ? "array" : "string",
 				},
 			},
 		};

@@ -14,6 +14,7 @@ class VariableTagRichText extends RichTextBase {
 		tags: ( keyof HTMLElementTagNameMap )[] | Record<string, keyof HTMLElementTagNameMap>;
 		name: string;
 		class: string;
+		default: string;
 		placeholder: string;
 		multiline: boolean;
 		label: string;

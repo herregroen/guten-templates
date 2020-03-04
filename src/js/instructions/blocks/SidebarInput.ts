@@ -54,7 +54,7 @@ class SidebarInput extends SidebarBase {
 		return {
 			attributes: {
 				[ this.options.name ]: {
-					type: "string",
+					type: this.options.type === "number" ? "number" : "string",
 				},
 			},
 		};

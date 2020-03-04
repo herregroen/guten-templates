@@ -10,6 +10,7 @@ class RichText extends RichTextBase {
 		tag: keyof HTMLElementTagNameMap;
 		name: string;
 		class: string;
+		default: string;
 		placeholder: string;
 		multiline: boolean | "li" | "p";
 	};

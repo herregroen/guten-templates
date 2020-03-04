@@ -20,6 +20,7 @@ export interface RichTextEditProps extends WordPressRichText.Props<keyof HTMLEle
 export default abstract class RichTextBase extends BlockInstruction {
 	public options: {
 		name: string;
+		default: string;
 		placeholder: string;
 	};
 
@@ -67,6 +68,7 @@ export default abstract class RichTextBase extends BlockInstruction {
 					type: "string",
 					source: "html",
 					selector: `[data-id=${this.options.name}]`,
+					"default": this.options.default,
 				},
 			},
 		};

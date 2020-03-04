@@ -10,6 +10,7 @@ import { BlockInstance } from "@wordpress/blocks";
 class InnerBlocks extends SchemaInstruction {
 	public options: {
 		allowedBlocks?: string[];
+		onlyFirst?: boolean;
 	}
 
 	/**
@@ -26,7 +27,11 @@ class InnerBlocks extends SchemaInstruction {
 			innerBlocks = innerBlocks.filter( innerBlock => this.options.allowedBlocks.includes( innerBlock.name ) );
 		}
 
-		return innerBlocks.map( innerBlock => {
+		if ( this.options.onlyFirst === true ) {
+			innerBlocks = innerBlocks.slice( 0, 1 );
+		}
+
+		const rendered = innerBlocks.map( innerBlock => {
 			const schemaDefinition = schemaDefinitions[ innerBlock.name ];
 
 			if ( ! schemaDefinition ) {
@@ -34,6 +39,11 @@ class InnerBlocks extends SchemaInstruction {
 			}
 			return schemaDefinition.render( innerBlock );
 		} ).filter( schema => schema !== null );
+
+		if ( this.options.onlyFirst === true ) {
+			return rendered[ 0 ];
+		}
+		return rendered;
 	}
 }
 

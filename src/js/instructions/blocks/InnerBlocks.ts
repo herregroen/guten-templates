@@ -1,4 +1,4 @@
-import { createElement, ComponentClass, Fragment } from "@wordpress/element";
+import { createElement, ComponentClass } from "@wordpress/element";
 import { InnerBlocks as WordPressInnerBlocks } from "@wordpress/block-editor";
 
 import BlockInstruction from "../../core/blocks/BlockInstruction";
