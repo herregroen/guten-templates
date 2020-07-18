@@ -15,7 +15,7 @@
     "@wordpress/element": "^2.9.0",
     "babel-loader": "^8.0.6",
     "core-js": "^3.4.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "xmldom": "^0.1.27"
